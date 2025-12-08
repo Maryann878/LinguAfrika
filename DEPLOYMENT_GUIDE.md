@@ -44,7 +44,11 @@ This guide will help you deploy LinguAfrika to production with both demo account
 2. **Configure Service**
    - Railway will auto-detect your backend
    - If not, click "New" → "GitHub Repo" → Select your repo
-   - Set **Root Directory** to `backend`
+   - **CRITICAL**: Set **Root Directory** to `backend` (this is required for monorepo setup!)
+     - Go to your service → Settings → General
+     - Find "Root Directory" field
+     - Enter: `backend`
+     - This tells Railway to treat the `backend` folder as the project root
 
 3. **Set Environment Variables**
    - Click on your service → "Variables" tab
@@ -102,10 +106,15 @@ This guide will help you deploy LinguAfrika to production with both demo account
    - Select your GitHub repository
 
 2. **Configure Build Settings**
-   - **Framework preset**: Vite
-   - **Build command**: `cd frontend && npm install && npm run build`
-   - **Build output directory**: `frontend/dist`
-   - **Root directory**: `/frontend` (leave empty if frontend is root)
+   - **Framework preset**: None (or Vite, but we'll override)
+   - **Root directory**: `frontend` (IMPORTANT: Set this to `frontend`)
+   - **Build command**: `npm install && npm run build`
+   - **Build output directory**: `dist`
+   
+   **Important Notes:**
+   - Setting "Root directory" to `frontend` tells Cloudflare to run all commands from the `frontend` folder
+   - This means `npm install` and `npm run build` will run inside the `frontend` directory
+   - The build output will be in `frontend/dist`, but since root is `frontend`, Cloudflare looks for `dist` relative to that
 
 3. **Set Environment Variables**
    - Go to "Settings" → "Environment variables"
@@ -263,12 +272,70 @@ VITE_API_URL=https://your-railway-app.up.railway.app/api
 
 ---
 
+## Troubleshooting
+
+### Railway: "No start command was found"
+
+**Error:**
+```
+No start command was found
+Railpack will check:
+1. A "start" script in your package.json
+2. A "main" field in your package.json
+3. An index.js or index.ts file in your project root
+```
+
+**Solution:**
+This happens when Railway detects the monorepo but doesn't know which directory to use.
+
+1. Go to Railway Dashboard → Your Service → Settings → General
+2. Find "Root Directory" field
+3. Set it to: `backend`
+4. Save and redeploy
+
+**Why this happens:**
+- Railway detects the workspace (monorepo) structure
+- It looks for a start command in the root `package.json`
+- But the start command is in `backend/package.json`
+- Setting Root Directory to `backend` tells Railway to use that folder
+
+### Cloudflare: "Could not load /opt/buildhome/repo/frontend/src/components/ui/toaster"
+
+**Error:**
+```
+Could not load /opt/buildhome/repo/frontend/src/components/ui/toaster
+ENOENT: no such file or directory
+```
+
+**Solution:**
+1. Make sure you've committed and pushed the directory rename (`Components` → `components`)
+2. In Cloudflare Pages → Settings → Builds & deployments:
+   - Set **Root directory** to: `frontend`
+   - Set **Build command** to: `npm install && npm run build`
+   - Set **Build output directory** to: `dist`
+3. Clear build cache and redeploy
+
+### Backend not connecting to MongoDB
+
+**Symptoms:**
+- Backend starts but can't connect to database
+- Errors in Railway logs about MongoDB connection
+
+**Solution:**
+1. Verify `MONGODB_URI` is set correctly in Railway environment variables
+2. Check MongoDB Atlas IP whitelist includes Railway's IPs (or use `0.0.0.0/0` for testing)
+3. Verify MongoDB username and password are correct
+4. Check connection string format: `mongodb+srv://username:password@cluster.mongodb.net/linguafrika?retryWrites=true&w=majority`
+
+---
+
 ## Support
 
 If you encounter issues:
 1. Check Railway logs
 2. Check Cloudflare build logs
 3. Verify all environment variables are set correctly
+4. Check the troubleshooting section above
 4. Test API endpoints directly using Railway URL
 
 Good luck with your deployment! 🚀
