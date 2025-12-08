@@ -123,9 +123,9 @@ export default function SignUp() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
+    <div className="min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
       {/* Left Column - Signup Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto" style={{ backgroundColor: '#F8F8F8' }}>
+      <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto mx-auto max-w-full" style={{ backgroundColor: '#F8F8F8' }}>
         <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5 lg:space-y-4 py-4 sm:py-0">
           {/* Logo Header */}
           <div className="mb-5 lg:mb-4 text-center">
@@ -213,7 +213,7 @@ export default function SignUp() {
                   placeholder="Enter your username"
                   value={formData.username}
                   onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                  className="pl-11 pr-4 h-11 text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
+                  className="pl-11 pr-4 h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
                   autoComplete="username"
                   required
                   disabled={loading}
@@ -237,7 +237,7 @@ export default function SignUp() {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="pl-11 pr-4 h-11 text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
+                  className="pl-11 pr-4 h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
                   autoComplete="email"
                   required
                   disabled={loading}
@@ -263,7 +263,7 @@ export default function SignUp() {
                       setSelectedCountry(country)
                     }
                   }}
-                  className="w-[160px] h-11 text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  className="w-[160px] h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
                 >
                   {countryCodes.map((country) => (
                     <option key={country.code} value={country.code}>
@@ -293,7 +293,7 @@ export default function SignUp() {
                       
                       setFormData({ ...formData, mobile: value })
                     }}
-                    className="pl-11 pr-4 h-11 text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
+                    className="pl-11 pr-4 h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
                     autoComplete="tel"
                     required
                     disabled={loading}
@@ -326,7 +326,7 @@ export default function SignUp() {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   className={cn(
-                    "pl-11 pr-11 h-11 text-sm border-gray-300 focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400",
+                    "pl-11 pr-11 h-11 text-base sm:text-sm border-gray-300 focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400",
                     formData.password && !isPasswordValid && "border-red-300 focus:border-red-500",
                     formData.password && isPasswordValid && "border-green-300 focus:border-green-500"
                   )}
@@ -456,7 +456,7 @@ export default function SignUp() {
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   className={cn(
-                    "pl-11 pr-11 h-11 text-sm border-gray-300 focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400",
+                    "pl-11 pr-11 h-11 text-base sm:text-sm border-gray-300 focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400",
                     formData.confirmPassword && !passwordsMatch && "border-red-300 focus:border-red-500",
                     formData.confirmPassword && passwordsMatch && "border-green-300 focus:border-green-500"
                   )}

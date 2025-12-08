@@ -1,9 +1,8 @@
 import { Link, useLocation } from "react-router-dom"
-import { Home, Calendar, Sparkles, Users, TrendingUp, HelpCircle, User, X, Settings } from "lucide-react"
+import { Home, Calendar, Sparkles, Users, TrendingUp, HelpCircle, User, Settings } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import LinguAfrikaBrand from "@/components/LinguAfrikaBrand"
-import { Button } from "@/components/ui/button"
 
 // Main Navigation - Primary actions users take most often
 const mainMenu = [
@@ -31,7 +30,7 @@ interface SidebarProps {
   onClose?: () => void
 }
 
-export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
+export function Sidebar(_props: SidebarProps = {}) {
   const location = useLocation()
 
   const isActive = (path: string) => {
@@ -41,53 +40,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     return location.pathname === path || location.pathname.startsWith(path + "/")
   }
 
-  const handleLinkClick = () => {
-    // Close mobile menu when link is clicked
-    if (onClose && window.innerWidth < 1024) {
-      onClose()
-    }
-  }
-
   return (
-    <>
-      {/* Mobile Overlay - Only show when sidebar is open on mobile */}
-      {onClose && (
-        <div
-          className={cn(
-            "fixed inset-0 bg-black/50 z-40 transition-opacity lg:hidden",
-            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-          )}
-          onClick={onClose}
-        />
-      )}
-
-      {/* Sidebar - Hidden on mobile, shown on desktop or when opened via hamburger */}
-      <div
-        className={cn(
-          "w-64 bg-white border-r border-gray-200 h-screen fixed left-0 top-0 overflow-y-auto z-50 transition-transform duration-300 ease-in-out",
-          onClose
-            ? isOpen
-              ? "translate-x-0"
-              : "-translate-x-full"
-            : "translate-x-0",
-          "lg:translate-x-0 lg:block" // Always visible on desktop, slide-in on mobile when open
-        )}
-      >
+    <div className="hidden lg:block w-64 bg-white border-r border-gray-200 h-screen fixed left-0 top-0 overflow-y-auto z-50">
       {/* Logo */}
       <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-        <Link to="/dashboard" className="flex items-center justify-center flex-1" onClick={handleLinkClick}>
+        <Link to="/dashboard" className="flex items-center justify-center flex-1">
           <LinguAfrikaBrand size="sm" />
         </Link>
-        {onClose && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="lg:hidden h-8 w-8"
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        )}
       </div>
 
       {/* Main Menu */}
@@ -103,7 +62,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               <Link
                 key={item.path}
                 to={item.path}
-                onClick={handleLinkClick}
                 className={cn(
                   "flex items-center justify-between px-3 py-3 min-h-[44px] rounded-lg transition-all duration-200 group relative",
                   active
@@ -154,7 +112,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               <Link
                 key={item.path}
                 to={item.path}
-                onClick={handleLinkClick}
                 className={cn(
                   "flex items-center justify-between px-3 py-3 min-h-[44px] rounded-lg transition-all duration-200 group relative",
                   active
@@ -205,7 +162,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               <Link
                 key={item.path}
                 to={item.path}
-                onClick={handleLinkClick}
                 className={cn(
                   "flex items-center gap-3 px-3 py-3 min-h-[44px] rounded-lg transition-all duration-200",
                   active
@@ -221,8 +177,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           })}
         </nav>
       </div>
-      </div>
-    </>
+    </div>
   )
 }
 

@@ -6,6 +6,8 @@ import { useState, useEffect, useRef } from "react"
 import { getChatHistory, sendChatMessage } from "@/services/chatService"
 import { useToast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
+import { BackButton } from "@/components/BackButton"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 interface Message {
   _id: string
@@ -105,18 +107,12 @@ export default function AIChat() {
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center space-y-4">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
-          <p className="text-gray-600">Loading chat...</p>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Loading chat..." />
   }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 h-[calc(100vh-200px)] flex flex-col max-w-4xl mx-auto">
+      <BackButton to="/dashboard" label="Back to Dashboard" className="mb-4" />
       <div className="mb-6">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 tracking-tight">AI Chat Assistant</h1>
         <p className="text-gray-600 text-base sm:text-lg">Practice your language skills with our AI tutor</p>

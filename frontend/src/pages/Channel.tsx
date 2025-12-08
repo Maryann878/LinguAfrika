@@ -2,12 +2,13 @@ import { useParams, useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ArrowLeft, Send, User, UserPlus, Loader2, Heart, MessageCircle } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Send, User, UserPlus, Loader2, Heart, MessageCircle } from "lucide-react"
 import { useState, useEffect } from "react"
 import { getChannelByName, getChannelPosts, createPost, joinChannel, checkChannelMembership } from "@/services/communityService"
 import { useToast } from "@/components/ui/use-toast"
 import { getProfileImageUrl } from "@/utils/imageUtils"
+import { BackButton } from "@/components/BackButton"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 interface Channel {
   _id: string
@@ -159,14 +160,7 @@ export default function Channel() {
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center space-y-4">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
-          <p className="text-slate-600">Loading channel...</p>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Loading channel..." />
   }
 
   if (!channel) {
@@ -177,13 +171,9 @@ export default function Channel() {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 max-w-7xl mx-auto">
+      <BackButton to="/community" label="Back to Community" className="mb-4" />
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" asChild>
-            <Link to="/community">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-slate-900 capitalize">
               {channel.name}

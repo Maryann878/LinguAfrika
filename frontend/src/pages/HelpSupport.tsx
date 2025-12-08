@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Mail, MessageSquare, Book, HelpCircle } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
+import { BackButton } from "@/components/BackButton"
 
 const faqs = [
   {
@@ -38,6 +39,7 @@ export default function HelpSupport() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      <BackButton to="/dashboard" label="Back to Dashboard" className="mb-4" />
       <div>
         <h1 className="text-4xl font-bold mb-2">Help & Support</h1>
         <p className="text-muted-foreground">Find answers or get in touch with us</p>

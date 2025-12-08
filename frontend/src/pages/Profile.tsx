@@ -2,12 +2,13 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Edit, Mail, Phone, MapPin, Calendar, Award, Loader2 } from "lucide-react"
+import { Edit, Mail, Phone, MapPin, Calendar, Award } from "lucide-react"
 import { Link } from "react-router-dom"
 import { getCurrentUser } from "@/services/auth"
 import { getAllUserProgress } from "@/services/courseService"
 import { useToast } from "@/components/ui/use-toast"
 import { getProfileImageUrl } from "@/utils/imageUtils"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 interface User {
   _id: string
@@ -154,14 +155,7 @@ export default function Profile() {
   }
 
   if (loading) {
-    return (
-      <div className="container mx-auto p-6 flex items-center justify-center min-h-[60vh]">
-        <div className="text-center space-y-4">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
-          <p className="text-gray-600">Loading profile...</p>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Loading your profile..." />
   }
 
   if (!user) {
@@ -178,7 +172,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 space-y-6">
+    <div className="container mx-auto py-4 sm:py-6 space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Profile</h1>

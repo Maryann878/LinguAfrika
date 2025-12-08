@@ -18,7 +18,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { getAllCourses, getAllUserProgress } from "@/services/courseService"
 import { cn } from "@/lib/utils"
 import { useDebounce } from "@/hooks/useDebounce"
-import { CourseGridSkeleton } from "@/components/SkeletonLoader"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 interface Course {
   _id: string
@@ -166,19 +166,11 @@ export default function Languages() {
   const levels = ["all", "Beginner", "Intermediate", "Advanced"]
 
   if (loading) {
-    return (
-      <div className="p-6 space-y-8">
-        <div className="space-y-4">
-          <div className="h-10 w-64 bg-gray-200 rounded animate-pulse" />
-          <div className="h-6 w-96 bg-gray-200 rounded animate-pulse" />
-        </div>
-        <CourseGridSkeleton count={6} />
-      </div>
-    )
+    return <LoadingScreen message="Loading languages..." />
   }
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="py-6 space-y-8">
       {/* Header Section */}
       <div className="space-y-4">
         <div>

@@ -193,16 +193,6 @@ export function TopBar({ onMenuClick }: TopBarProps) {
   return (
     <div className="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between sticky top-0 z-30 shadow-sm">
       <div className="flex items-center gap-4 sm:gap-5 flex-1 min-w-0">
-        {onMenuClick && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onMenuClick}
-            className="lg:hidden h-9 w-9 flex-shrink-0"
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-        )}
         {isDashboard ? (
           <div className="min-w-0 flex-1 space-y-1.5 sm:space-y-2">
             <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 tracking-tight leading-tight">

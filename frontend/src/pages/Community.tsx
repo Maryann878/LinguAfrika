@@ -9,6 +9,7 @@ import { getAllChannels, getChannelPosts, joinChannel, leaveChannel, checkChanne
 import { useToast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
 import { getErrorMessage, getErrorVariant } from "@/utils/errorHandler"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 interface Channel {
   _id: string
@@ -185,18 +186,11 @@ export default function Community() {
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center space-y-4">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
-          <p className="text-gray-600">Loading community...</p>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Loading your community..." />
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto">
+    <div className="py-6 sm:py-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2 tracking-tight">LinguAfrika Community</h1>
         <p className="text-slate-600 text-sm sm:text-base">Connect with fellow language learners and share your journey</p>

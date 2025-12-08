@@ -8,6 +8,7 @@ import { loginUser } from "@/services/auth"
 import { setAuthToken } from "@/utils/security"
 import { getErrorMessage, getErrorVariant } from "@/utils/errorHandler"
 import LinguAfrikaBrand from "@/components/LinguAfrikaBrand"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 export default function Login() {
   const navigate = useNavigate()
@@ -29,30 +30,30 @@ export default function Login() {
         // Use secure token storage
         setAuthToken(response.token)
         
-        toast({
-          title: "Welcome back!",
-          description: "Redirecting to dashboard...",
-        })
-
+        // Show loading screen while redirecting
         setTimeout(() => {
           navigate(response.profileComplete ? "/dashboard" : "/onboarding")
         }, 1500)
       }
     } catch (error: any) {
+      setLoading(false)
       toast({
         title: "Login failed",
         description: getErrorMessage(error),
         variant: getErrorVariant(error),
       })
-    } finally {
-      setLoading(false)
     }
   }
 
+  // Show loading screen during login
+  if (loading) {
+    return <LoadingScreen message="Welcome back! Logging you in..." />
+  }
+
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
+    <div className="min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
       {/* Left Column - Login Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto" style={{ backgroundColor: '#F8F8F8' }}>
+      <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto mx-auto max-w-full" style={{ backgroundColor: '#F8F8F8' }}>
         <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5 lg:space-y-4 py-4 sm:py-0">
           {/* Logo Header */}
           <div className="mb-5 lg:mb-4 text-center">
@@ -140,7 +141,7 @@ export default function Login() {
                   placeholder="Enter your username"
                   value={formData.identifier}
                   onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
-                  className="pl-11 pr-4 h-11 text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
+                  className="pl-11 pr-4 h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
                   autoComplete="username"
                   required
                   disabled={loading}
@@ -164,7 +165,7 @@ export default function Login() {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="pl-11 pr-11 h-11 text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
+                  className="pl-11 pr-11 h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 hover:border-gray-400"
                   autoComplete="current-password"
                   required
                   disabled={loading}

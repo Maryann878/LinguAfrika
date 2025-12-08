@@ -2,11 +2,13 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { TrendingUp, Award, BookOpen, Loader2, Clock } from "lucide-react"
+import { TrendingUp, Award, BookOpen, Clock } from "lucide-react"
 import { getAllUserProgress } from "@/services/courseService"
 import { useToast } from "@/components/ui/use-toast"
 import { Link } from "react-router-dom"
 import { cn } from "@/lib/utils"
+import { BackButton } from "@/components/BackButton"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 interface UserProgress {
   _id: string
@@ -71,18 +73,12 @@ export default function LearningProgress() {
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center space-y-4">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
-          <p className="text-gray-600">Loading your progress...</p>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Loading your progress..." />
   }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto">
+      <BackButton to="/dashboard" label="Back to Dashboard" className="mb-4" />
       <div>
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 tracking-tight">Learning Progress</h1>
         <p className="text-gray-600 text-base sm:text-lg">Track your learning journey and achievements</p>

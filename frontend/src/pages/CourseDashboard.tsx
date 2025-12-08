@@ -9,7 +9,6 @@ import {
   ArrowRight, 
   ArrowLeft,
   Clock,
-  Loader2,
   Award,
   PlayCircle,
   Hash,
@@ -22,6 +21,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { getCourseByName, getUserProgress } from "@/services/courseService"
 import { getLessonsByCourse } from "@/services/lessonService"
 import { cn } from "@/lib/utils"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 interface Lesson {
   _id: string
@@ -166,14 +166,7 @@ export default function CourseDashboard() {
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center space-y-4">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
-          <p className="text-gray-600">Loading course dashboard...</p>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Loading course dashboard..." />
   }
 
   if (!course) {

@@ -144,7 +144,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary/5">
 
       {/* Main Content */}
-      <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8 sm:space-y-10 lg:space-y-12 max-w-7xl mx-auto">
+      <div className="py-6 sm:py-8 space-y-8 sm:space-y-10 lg:space-y-12 max-w-7xl mx-auto">
         {/* Statistics Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Total Languages Card */}
