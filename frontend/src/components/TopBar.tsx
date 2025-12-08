@@ -196,7 +196,7 @@ export function TopBar({ onMenuClick }: TopBarProps) {
         {isDashboard ? (
           <div className="min-w-0 flex-1 space-y-1.5 sm:space-y-2">
             <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 tracking-tight leading-tight">
-              <span className="block sm:inline">{getGreeting()},</span>{" "}
+              <span className="inline">{getGreeting()},</span>{" "}
               <span className="text-primary">{getUserName()}!</span>{" "}
               <span className="inline-block animate-wave ml-1">👋</span>
             </h1>

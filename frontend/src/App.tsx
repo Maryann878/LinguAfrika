@@ -46,10 +46,10 @@ function App() {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate initial app load
+    // Minimal delay for smooth transition
     const timer = setTimeout(() => {
       setIsInitialLoading(false);
-    }, 500); // Small delay to show loading screen
+    }, 100); // Reduced delay for faster loading
 
     return () => clearTimeout(timer);
   }, []);

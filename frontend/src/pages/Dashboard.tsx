@@ -18,10 +18,10 @@ import { useToast } from "@/components/ui/use-toast"
 import { getAllCourses, getAllUserProgress } from "@/services/courseService"
 import { getCurrentUser } from "@/services/auth"
 import { cn } from "@/lib/utils"
-import { DashboardStatsSkeleton, CourseGridSkeleton } from "@/components/SkeletonLoader"
 import { useDebounce } from "@/hooks/useDebounce"
 import { safeGetStorage, safeSetStorage } from "@/utils/security"
 import { getErrorMessage, getErrorVariant } from "@/utils/errorHandler"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 interface Course {
   _id: string
@@ -127,17 +127,7 @@ export default function Dashboard() {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary/5">
-        <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8 sm:space-y-10 lg:space-y-12 max-w-7xl mx-auto">
-          <DashboardStatsSkeleton />
-          <div className="space-y-4">
-            <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
-            <CourseGridSkeleton count={10} />
-          </div>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Loading your dashboard..." />
   }
 
   return (
@@ -286,12 +276,12 @@ export default function Dashboard() {
 
                     <Button
                       variant="outline"
-                      className="w-full bg-white text-primary border-white hover:bg-white/95 font-bold h-12 sm:h-14 !rounded-full text-base sm:text-lg shadow-modern-lg hover:shadow-modern-xl transition-all btn-modern gradient-hover hover:scale-[1.02]"
+                      className="w-full bg-white !text-primary border-white hover:bg-white/95 font-bold h-12 sm:h-14 !rounded-full text-base sm:text-lg shadow-modern-lg hover:shadow-modern-xl transition-all btn-modern gradient-hover hover:scale-[1.02]"
                       asChild
                     >
-                      <Link to={`/course/${course.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                      <Link to={`/course/${course.name.toLowerCase().replace(/\s+/g, '-')}`} className="text-primary">
                         Continue Learning
-                        <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                        <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                       </Link>
                     </Button>
                   </CardContent>
