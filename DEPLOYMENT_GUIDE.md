@@ -330,18 +330,20 @@ Executing user deploy command: npx wrangler deploy
 **Solution:**
 This happens when Cloudflare Pages doesn't know where your build output is (common with monorepos).
 
-1. **Ensure `wrangler.jsonc` exists in repo root** (already included):
+1. **Ensure `wrangler.jsonc` exists in `frontend/` directory** (already included):
    ```jsonc
    {
      "name": "linguafrika",
      "compatibility_date": "2025-12-08",
      "assets": {
-       "directory": "./frontend/dist"
+       "directory": "./dist"
      }
    }
    ```
+   **Important**: Since Root directory is set to `frontend`, Wrangler runs from the `frontend` folder, so `wrangler.jsonc` must be in `frontend/` and the path must be `./dist` (relative to frontend).
+   
    This tells Cloudflare:
-   - Your static assets are in `frontend/dist` (monorepo path)
+   - Your static assets are in `dist` (relative to frontend directory)
    - You're deploying static assets, not a Worker script
    - Where to find the build output directory
 

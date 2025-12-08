@@ -6,21 +6,25 @@ When deploying to Cloudflare Pages, you need to configure these settings correct
 
 ### Required File: `wrangler.jsonc`
 
-A `wrangler.jsonc` file in the repo root helps Cloudflare identify where your build output is located (especially important for monorepos):
+A `wrangler.jsonc` file in the `frontend/` directory helps Cloudflare identify where your build output is located (especially important for monorepos):
 
 ```jsonc
 {
   "name": "linguafrika",
   "compatibility_date": "2025-12-08",
   "assets": {
-    "directory": "./frontend/dist"
+    "directory": "./dist"
   }
 }
 ```
 
+**Important**: Since Root directory is set to `frontend`, Wrangler runs from the `frontend` folder, so:
+- `wrangler.jsonc` must be in `frontend/` directory (not repo root)
+- The path must be `./dist` (relative to frontend, not `./frontend/dist`)
+
 This file is already included in the repository and tells Cloudflare:
 - To deploy the frontend build (not the backend)
-- Where to find the static files (`frontend/dist`)
+- Where to find the static files (`dist` relative to frontend)
 - You're deploying static assets, not a Worker script
 
 ### Build Settings
