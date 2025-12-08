@@ -106,15 +106,18 @@ This guide will help you deploy LinguAfrika to production with both demo account
    - Select your GitHub repository
 
 2. **Configure Build Settings**
-   - **Framework preset**: None (or Vite, but we'll override)
+   - **Framework preset**: `Vite` (or `None` if Vite isn't available)
    - **Root directory**: `frontend` (IMPORTANT: Set this to `frontend`)
    - **Build command**: `npm install && npm run build`
    - **Build output directory**: `dist`
+   - **Deploy command**: Leave EMPTY or remove if present (Cloudflare Pages handles deployment automatically)
    
    **Important Notes:**
    - Setting "Root directory" to `frontend` tells Cloudflare to run all commands from the `frontend` folder
    - This means `npm install` and `npm run build` will run inside the `frontend` directory
    - The build output will be in `frontend/dist`, but since root is `frontend`, Cloudflare looks for `dist` relative to that
+   - **DO NOT set a deploy command** - Cloudflare Pages automatically deploys static sites after build
+   - If you see a "Deploy command" field, leave it empty or delete any value in it
 
 3. **Set Environment Variables**
    - Go to "Settings" → "Environment variables"
@@ -314,6 +317,33 @@ ENOENT: no such file or directory
    - Set **Build command** to: `npm install && npm run build`
    - Set **Build output directory** to: `dist`
 3. Clear build cache and redeploy
+
+### Cloudflare: "Missing entry-point to Worker script" or Wrangler Deploy Error
+
+**Error:**
+```
+✘ [ERROR] Missing entry-point to Worker script or to assets directory
+Executing user deploy command: npx wrangler deploy
+```
+
+**Solution:**
+This happens when Cloudflare Pages thinks you're deploying a Worker instead of a static site.
+
+1. Go to Cloudflare Pages → Your Project → Settings → Builds & deployments
+2. Check for a **"Deploy command"** field
+3. **Remove or clear any value** in the Deploy command field (leave it empty)
+4. Ensure **Framework preset** is set to `Vite` (not "Workers")
+5. Verify these settings:
+   - **Root directory**: `frontend`
+   - **Build command**: `npm install && npm run build`
+   - **Build output directory**: `dist`
+   - **Deploy command**: (empty/blank)
+6. Save and redeploy
+
+**Why this happens:**
+- Cloudflare Pages automatically deploys static sites after build
+- If a deploy command is set, it tries to use Wrangler (Workers tool)
+- Static sites don't need a deploy command - Pages handles it automatically
 
 ### Backend not connecting to MongoDB
 

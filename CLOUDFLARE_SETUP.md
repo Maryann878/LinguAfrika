@@ -18,8 +18,14 @@ When deploying to Cloudflare Pages, you need to configure these settings correct
    - Relative to the root directory (`frontend`)
    - So Cloudflare will look for `frontend/dist`
 
-4. **Framework preset**: `None` or `Vite`
-   - Either works, but we're overriding the build command anyway
+4. **Framework preset**: `Vite` (preferred) or `None`
+   - `Vite` is recommended as it's the framework you're using
+
+5. **Deploy command**: **LEAVE EMPTY** ⚠️
+   - **DO NOT set a deploy command**
+   - Cloudflare Pages automatically deploys static sites after build
+   - If you see a deploy command set to `npx wrangler deploy`, remove it
+   - Wrangler is for Workers, not static Pages sites
 
 ### Environment Variables
 
@@ -60,4 +66,11 @@ If you still get errors after updating settings:
 3. **Check build logs**
    - Look for the actual file paths in error messages
    - Ensure they show `components` (lowercase), not `Components`
+
+4. **Wrangler Deploy Error**
+   - If you see: `✘ [ERROR] Missing entry-point to Worker script`
+   - This means a deploy command is set (should be empty)
+   - Go to Settings → Builds & deployments
+   - Remove/clear the "Deploy command" field
+   - Cloudflare Pages handles static site deployment automatically
 
