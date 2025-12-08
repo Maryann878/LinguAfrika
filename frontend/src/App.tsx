@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
-import { ErrorBoundary } from "@/Components/ErrorBoundary";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ResetEmail from './pages/ResetEmail';
@@ -13,7 +13,7 @@ import Dashboard from './pages/Dashboard';
 import CourseOverview from './pages/CourseOverview';
 import Feedback from './pages/Feedback';
 import ProfilePage from './pages/Profile';
-import Layout from './Components/Layout/Layout';
+import Layout from './components/Layout/Layout';
 import CreateProfile from './pages/CreateProfile';
 import Verification from './pages/Verification';
 import Onboarding from './pages/Onboarding';
