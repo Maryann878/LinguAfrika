@@ -13,7 +13,6 @@ import {
   Users,
   Loader2,
   ArrowLeft,
-  Award
 } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { getCourseByName, getUserProgress } from "@/services/courseService"
@@ -282,7 +281,7 @@ export default function Levels() {
 
       {/* Levels Grid */}
       <div className="grid md:grid-cols-3 gap-6">
-        {levels.map((level, index) => {
+        {levels.map((level) => {
           const colors = levelColors[level.name] || levelColors.Beginner
           const hasProgress = level.progress > 0
           const isBeginner = level.name === "Beginner"

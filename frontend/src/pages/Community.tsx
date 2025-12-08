@@ -51,7 +51,7 @@ export default function Community() {
 
           // Check membership for each channel
           const membershipChecks = await Promise.allSettled(
-            channelsData.map(async (channel) => {
+            channelsData.map(async (channel: Channel) => {
               try {
                 const membershipResponse = await checkChannelMembership(channel._id)
                 return { channelId: channel._id, isMember: membershipResponse?.isMember || false }
@@ -70,7 +70,7 @@ export default function Community() {
           setChannelMemberships(memberships)
 
           // Fetch recent posts from first joined channel if available
-          const joinedChannels = channelsData.filter(ch => memberships[ch._id])
+          const joinedChannels = channelsData.filter((ch: Channel) => memberships[ch._id])
           if (joinedChannels.length > 0) {
             try {
               const postsResponse = await getChannelPosts(joinedChannels[0]._id, 1, 5)

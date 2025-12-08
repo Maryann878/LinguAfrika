@@ -2,7 +2,6 @@ import { useParams, useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Send, User, UserPlus, Loader2, Heart, MessageCircle } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
@@ -263,7 +262,7 @@ export default function Channel() {
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                           {post.userId?.profileImage ? (
                             <img
-                              src={getProfileImageUrl(post.userId.profileImage)}
+                              src={getProfileImageUrl(post.userId.profileImage) || undefined}
                               alt={post.userId.username}
                               className="w-full h-full object-cover"
                             />
@@ -297,7 +296,7 @@ export default function Channel() {
                                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                                     {reply.userId?.profileImage ? (
                                       <img
-                                        src={getProfileImageUrl(reply.userId.profileImage)}
+                                        src={getProfileImageUrl(reply.userId.profileImage) || undefined}
                                         alt={reply.userId.username}
                                         className="w-full h-full object-cover"
                                       />

@@ -13,7 +13,6 @@ import {
   Award,
   PlayCircle,
   Languages,
-  TrendingUp
 } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { getAllCourses, getAllUserProgress } from "@/services/courseService"

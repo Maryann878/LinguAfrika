@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -52,7 +52,6 @@ export default function Languages() {
   const [levelFilter, setLevelFilter] = useState<string>("all")
   const [courses, setCourses] = useState<Course[]>([])
   const [userProgress, setUserProgress] = useState<UserProgress[]>([])
-  const [filteredCourses, setFilteredCourses] = useState<Course[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -102,7 +101,6 @@ export default function Languages() {
       filtered = filtered.filter((course) => course.level === levelFilter)
     }
 
-    setFilteredCourses(filtered)
   }, [debouncedSearchQuery, levelFilter, courses])
 
   const getProgressForCourse = (courseId: string) => {
@@ -431,7 +429,6 @@ export default function Languages() {
             const progress = getProgressForCourse(course._id)
             const isInProgress = progress?.status === 'in-progress'
             const isCompleted = progress?.status === 'completed'
-            const progressPercent = progress?.progress || 0
 
             return (
               <Card
