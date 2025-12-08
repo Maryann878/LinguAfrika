@@ -4,21 +4,24 @@
 
 When deploying to Cloudflare Pages, you need to configure these settings correctly:
 
-### Required File: `wrangler.json`
+### Required File: `wrangler.jsonc`
 
-A `wrangler.json` file in the repo root helps Cloudflare identify where your build output is located (especially important for monorepos):
+A `wrangler.jsonc` file in the repo root helps Cloudflare identify where your build output is located (especially important for monorepos):
 
-```json
+```jsonc
 {
   "name": "linguafrika",
   "compatibility_date": "2025-12-08",
-  "pages_build_output_dir": "frontend/dist"
+  "assets": {
+    "directory": "./frontend/dist"
+  }
 }
 ```
 
 This file is already included in the repository and tells Cloudflare:
 - To deploy the frontend build (not the backend)
 - Where to find the static files (`frontend/dist`)
+- You're deploying static assets, not a Worker script
 
 ### Build Settings
 
