@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
-import { Lock, Eye, EyeOff, Loader2 } from "lucide-react"
+import { Lock, Eye, EyeOff, Loader2, ArrowLeft } from "lucide-react"
 import { resetPassword } from "@/services/auth"
 import LinguAfrikaBrand from "@/components/LinguAfrikaBrand"
 
@@ -91,10 +91,23 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Column - Reset Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-8" style={{ backgroundColor: '#F8F8F8' }}>
-        <div className="w-full max-w-md mx-auto space-y-5 lg:space-y-4">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto" style={{ backgroundColor: '#F8F8F8' }}>
+        <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5 lg:space-y-4 py-4 sm:py-0">
+          {/* Mobile Back Button - Top Left */}
+          <div className="lg:hidden mb-4">
+            <button
+              type="button"
+              onClick={() => navigate("/login")}
+              className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition-colors font-medium"
+              aria-label="Back to login"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Login
+            </button>
+          </div>
+
           {/* Logo Header */}
           <div className="mb-5 lg:mb-4 text-center">
             <LinguAfrikaBrand size="md" />
@@ -201,6 +214,19 @@ export default function ResetPassword() {
                 "Reset Password"
               )}
             </Button>
+
+            {/* Back to Login Link */}
+            <div className="text-center pt-2">
+              <button
+                type="button"
+                onClick={() => navigate("/login")}
+                className="text-sm text-gray-600 hover:text-primary transition-colors inline-flex items-center gap-1 font-medium"
+                disabled={loading}
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Login
+              </button>
+            </div>
           </form>
         </div>
       </div>

@@ -11,7 +11,8 @@ import {
   Search,
   FileText,
   Award,
-  Users
+  Users,
+  PlayCircle
 } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { getAllCourses, getAllUserProgress } from "@/services/courseService"
@@ -240,10 +241,25 @@ export default function Languages() {
             </p>
           </div>
           {filteredEnrolledCourses.length === 0 ? (
-            <Card>
-              <CardContent className="p-8 text-center">
-                <BookOpen className="h-10 w-10 text-gray-400 mx-auto mb-3" />
-                <p className="text-slate-600">No enrolled courses match your search criteria.</p>
+            <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-dashed border-gray-200">
+              <CardContent className="p-10 sm:p-12 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-primary/10 rounded-2xl mb-4">
+                  <BookOpen className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 tracking-tight">No courses match your search</h3>
+                <p className="text-sm sm:text-base text-slate-600 mb-6 max-w-md mx-auto">
+                  Try adjusting your search terms or browse all available courses below.
+                </p>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSearchQuery("")
+                    setLevelFilter("all")
+                  }}
+                  className="!rounded-full h-11 px-6 font-semibold"
+                >
+                  Clear Filters
+                </Button>
               </CardContent>
             </Card>
           ) : (
@@ -258,9 +274,9 @@ export default function Languages() {
                   <Card
                     key={course._id}
                     className={cn(
-                      "hover:shadow-xl transition-all cursor-pointer overflow-hidden group",
-                      isInProgress && "ring-2 ring-primary",
-                      isCompleted && "ring-2 ring-green-500"
+                      "transition-all duration-300 cursor-pointer overflow-hidden group hover-lift hover-glow modern-card",
+                      isInProgress && "ring-2 ring-primary ring-offset-2 shadow-modern-lg",
+                      isCompleted && "ring-2 ring-green-500 ring-offset-2 shadow-modern-lg"
                     )}
                   >
                     <div onClick={(e) => handleCourseClick(e, course)}>
@@ -322,18 +338,24 @@ export default function Languages() {
 
                           {/* Progress Bar (if in progress) */}
                           {isInProgress && progressPercent > 0 && (
-                            <div className="space-y-2 pt-2 border-t border-gray-200">
-                              <div className="flex justify-between text-xs text-slate-600">
-                                <span>Progress</span>
-                                <span className="font-semibold">{Math.round(progressPercent)}%</span>
+                            <div className="space-y-2.5 pt-3 border-t border-gray-200">
+                              <div className="flex justify-between items-center text-xs sm:text-sm text-slate-700">
+                                <span className="flex items-center gap-1.5 font-semibold">
+                                  <PlayCircle className="h-3.5 w-3.5 text-primary" />
+                                  Progress
+                                </span>
+                                <span className="font-bold text-primary text-base">{Math.round(progressPercent)}%</span>
                               </div>
-                              <div className="w-full bg-slate-200 rounded-full h-2">
+                              <div className="w-full bg-slate-200 rounded-full h-2.5 sm:h-3 overflow-hidden">
                                 <div
-                                  className="bg-primary h-2 rounded-full transition-all"
+                                  className={cn(
+                                    "h-2.5 sm:h-3 rounded-full transition-all duration-500",
+                                    progressPercent === 100 ? "bg-green-500" : "bg-gradient-to-r from-primary to-primary/80"
+                                  )}
                                   style={{ width: `${progressPercent}%` }}
                                 />
                               </div>
-                              <p className="text-xs text-slate-500">
+                              <p className="text-xs sm:text-sm text-slate-600 font-medium">
                                 Lesson {progress.currentLesson} of {progress.totalLessons || course.totalLessons}
                               </p>
                             </div>
@@ -358,7 +380,7 @@ export default function Languages() {
                           {/* Action Button */}
                           <Button
                             className={cn(
-                              "w-full !rounded-full font-semibold h-11",
+                              "w-full !rounded-full font-semibold h-11 min-h-[44px] transition-all hover:scale-[1.02]",
                               isCompleted && "bg-green-500 hover:bg-green-600"
                             )}
                             variant={isCompleted ? "default" : "default"}
@@ -404,11 +426,13 @@ export default function Languages() {
         </div>
         
         {filteredAvailableCourses.length === 0 ? (
-          <Card>
-            <CardContent className="p-12 text-center">
-              <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg sm:text-xl font-semibold text-slate-900 mb-2">No courses found</h3>
-              <p className="text-slate-600 mb-4 text-sm">
+          <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-dashed border-gray-200">
+            <CardContent className="p-10 sm:p-12 text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-primary/10 rounded-2xl mb-4">
+                <Search className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 tracking-tight">No courses found</h3>
+              <p className="text-sm sm:text-base text-slate-600 mb-6 max-w-md mx-auto">
                 Try adjusting your search or filter criteria to find courses to enroll in.
               </p>
               <Button
@@ -417,7 +441,7 @@ export default function Languages() {
                   setSearchQuery("")
                   setLevelFilter("all")
                 }}
-                className="!rounded-full"
+                className="!rounded-full h-11 px-6 font-semibold"
               >
                 Clear Filters
               </Button>
@@ -434,9 +458,9 @@ export default function Languages() {
               <Card
                 key={course._id}
                 className={cn(
-                  "hover:shadow-xl transition-all cursor-pointer overflow-hidden group",
-                  isInProgress && "ring-2 ring-primary",
-                  isCompleted && "ring-2 ring-green-500"
+                  "hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden group hover:-translate-y-1 hover:scale-[1.01] border border-gray-200 hover:border-primary/50",
+                  isInProgress && "ring-2 ring-primary ring-offset-2 shadow-md",
+                  isCompleted && "ring-2 ring-green-500 ring-offset-2 shadow-md"
                 )}
               >
                 <div onClick={(e) => handleCourseClick(e, course)}>

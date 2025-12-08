@@ -8,6 +8,14 @@ import { config } from './config/env.js';
 import { connectDB } from './config/database.js';
 import { errorHandler } from './utils/errorHandler.js';
 import { initializeSocket } from './socket/socket.js';
+import { generalLimiter } from './middleware/rateLimiter.js';
+import {
+  securityHeaders,
+  mongoSanitization,
+  parameterPollutionProtection,
+  requestSizeLimits,
+  inputSanitization,
+} from './middleware/security.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,14 +37,30 @@ const httpServer = createServer(app);
 const io = initializeSocket(httpServer);
 global.io = io;
 
-// Middleware
+// Security Middleware (apply early, before routes)
+app.use(securityHeaders); // Security headers (XSS, HSTS, etc.)
+app.use(mongoSanitization); // NoSQL injection protection
+app.use(parameterPollutionProtection); // HTTP Parameter Pollution protection
+app.use(requestSizeLimits); // Request size limits
+
+// CORS configuration
 app.use(cors({
   origin: config.corsOrigin,
   credentials: true,
+  optionsSuccessStatus: 200,
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// Body parsing with size limits
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb', parameterLimit: 100 }));
 app.use(cookieParser());
+
+// Input sanitization (after body parsing)
+app.use(inputSanitization);
+
+// Apply general rate limiting to all routes (safe, non-breaking)
+// This protects against basic DDoS and abuse without affecting normal users
+app.use('/api', generalLimiter);
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom"
 import { getAllChannels, getChannelPosts, joinChannel, leaveChannel, checkChannelMembership } from "@/services/communityService"
 import { useToast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
+import { getErrorMessage, getErrorVariant } from "@/utils/errorHandler"
 
 interface Channel {
   _id: string
@@ -85,8 +86,8 @@ export default function Community() {
       } catch (error: any) {
         toast({
           title: "Error loading community",
-          description: error.message || "Failed to load community channels",
-          variant: "destructive",
+          description: getErrorMessage(error),
+          variant: getErrorVariant(error),
         })
       } finally {
         setLoading(false)
@@ -221,11 +222,11 @@ export default function Community() {
           </div>
           
           {filteredChannels.length === 0 ? (
-            <Card className="shadow-sm">
+            <Card className="shadow-modern modern-card">
               <CardContent className="p-12 text-center">
-                <Hash className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No channels found</h3>
-                <p className="text-gray-600 mb-4">Try adjusting your search terms.</p>
+                <Hash className="h-12 w-12 text-slate-subtle mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-slate-refined mb-2">No channels found</h3>
+                <p className="text-slate-subtle mb-4">Try adjusting your search terms.</p>
                 <Button
                   variant="outline"
                   onClick={() => setSearchQuery("")}
@@ -245,8 +246,8 @@ export default function Community() {
                   <Card 
                     key={channel._id} 
                     className={cn(
-                      "hover:shadow-xl transition-all duration-300 border-slate-200 hover:border-primary/50 group",
-                      isMember && "ring-2 ring-primary/20"
+                      "modern-card hover-lift hover-glow group",
+                      isMember && "ring-2 ring-primary/20 shadow-modern"
                     )}
                   >
                     <CardHeader className="pb-3">
@@ -334,7 +335,7 @@ export default function Community() {
 
         {/* Sidebar */}
         <div className="space-y-5 sm:space-y-6">
-          <Card className="shadow-lg border-gray-200">
+          <Card className="shadow-modern-lg modern-card">
             <CardHeader>
               <CardTitle className="text-xl">Recent Posts</CardTitle>
             </CardHeader>
@@ -361,7 +362,7 @@ export default function Community() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-lg border-gray-200">
+          <Card className="shadow-modern-lg modern-card">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-xl">
                 <TrendingUp className="h-5 w-5 text-primary" />

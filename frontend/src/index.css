@@ -66,6 +66,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   background-color: hsl(var(--background));
+  line-height: 1.6; /* Improved line height for readability */
+}
+
+/* Improved typography for language learning content */
+.language-content {
+  font-family: 'Inter', 'Noto Sans', system-ui, sans-serif;
+  line-height: 1.75; /* More relaxed line height for language text */
+  letter-spacing: 0.01em; /* Slight letter spacing for better readability */
+}
+
+/* Minimum touch target size for mobile (44x44px) */
+button, a, input[type="button"], input[type="submit"], [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Ensure interactive elements are accessible */
+@media (max-width: 768px) {
+  button, a, input[type="button"], input[type="submit"], [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px; /* Ensure adequate padding */
+  }
 }
 
 code {
@@ -98,6 +121,116 @@ a:focus {
 /* Smooth transitions for interactive elements */
 input, textarea, select {
   transition: all 0.3s ease;
+}
+
+/* Modern hover effects for cards and interactive elements */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.hover-scale {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(227, 116, 0, 0.3);
+}
+
+/* Perfect text color combinations for readability */
+.text-primary-dark {
+  color: hsl(24, 100%, 35%);
+}
+
+.text-slate-refined {
+  color: hsl(222, 47%, 11%);
+}
+
+.text-slate-subtle {
+  color: hsl(215, 16%, 47%);
+}
+
+.bg-slate-refined {
+  background-color: hsl(222, 47%, 11%);
+}
+
+/* Modern card styling */
+.modern-card {
+  background: white;
+  border: 1px solid hsl(214, 32%, 91%);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-card:hover {
+  border-color: hsl(24, 100%, 45%);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Professional button hover effects */
+.btn-modern {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-modern::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-modern:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Smooth gradient transitions */
+.gradient-hover {
+  background: linear-gradient(135deg, hsl(24, 100%, 45%) 0%, hsl(24, 100%, 55%) 100%);
+  transition: background 0.3s ease;
+}
+
+.gradient-hover:hover {
+  background: linear-gradient(135deg, hsl(24, 100%, 50%) 0%, hsl(24, 100%, 60%) 100%);
+}
+
+/* Professional shadow system */
+.shadow-modern {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 
+              0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.shadow-modern-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+              0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-modern-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 /* Loading spinner animation */

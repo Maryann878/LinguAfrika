@@ -153,10 +153,23 @@ export default function ResetOTP() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Column - OTP Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-8" style={{ backgroundColor: '#F8F8F8' }}>
-        <div className="w-full max-w-md mx-auto space-y-5 lg:space-y-4">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto" style={{ backgroundColor: '#F8F8F8' }}>
+        <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5 lg:space-y-4 py-4 sm:py-0">
+          {/* Mobile Back Button - Top Left */}
+          <div className="lg:hidden mb-4">
+            <button
+              type="button"
+              onClick={() => navigate("/reset-email")}
+              className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition-colors font-medium"
+              aria-label="Back to email"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Email
+            </button>
+          </div>
+
           {/* Logo Header */}
           <div className="mb-5 lg:mb-4 text-center">
             <LinguAfrikaBrand size="md" />
@@ -179,7 +192,7 @@ export default function ResetOTP() {
               <label className="text-sm font-semibold text-gray-700 block text-center">
                 Enter Verification Code
               </label>
-              <div className="flex gap-2 justify-center" onPaste={handlePaste}>
+              <div className="flex gap-2 sm:gap-3 justify-center" onPaste={handlePaste}>
                 {code.map((digit, index) => (
                   <Input
                     key={index}
@@ -190,7 +203,7 @@ export default function ResetOTP() {
                     value={digit}
                     onChange={(e) => handleChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
-                    className="w-12 h-12 text-center text-lg font-semibold border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-white"
+                    className="w-12 h-12 sm:w-14 sm:h-14 text-center text-lg sm:text-xl font-semibold border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-white"
                     required
                     disabled={loading}
                     autoFocus={index === 0}

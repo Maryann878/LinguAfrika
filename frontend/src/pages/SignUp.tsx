@@ -123,10 +123,10 @@ export default function SignUp() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Column - Signup Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-8" style={{ backgroundColor: '#F8F8F8' }}>
-        <div className="w-full max-w-md mx-auto space-y-5 lg:space-y-4">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto" style={{ backgroundColor: '#F8F8F8' }}>
+        <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5 lg:space-y-4 py-4 sm:py-0">
           {/* Logo Header */}
           <div className="mb-5 lg:mb-4 text-center">
             <LinguAfrikaBrand size="md" />

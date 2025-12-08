@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
 import { User, Lock, Eye, EyeOff, Loader2 } from "lucide-react"
 import { loginUser } from "@/services/auth"
+import { setAuthToken } from "@/utils/security"
+import { getErrorMessage, getErrorVariant } from "@/utils/errorHandler"
 import LinguAfrikaBrand from "@/components/LinguAfrikaBrand"
 
 export default function Login() {
@@ -24,8 +26,8 @@ export default function Login() {
     try {
       const response = await loginUser(formData)
       if (response?.token) {
-        localStorage.setItem("authToken", response.token)
-        localStorage.setItem("token", response.token)
+        // Use secure token storage
+        setAuthToken(response.token)
         
         toast({
           title: "Welcome back!",
@@ -39,8 +41,8 @@ export default function Login() {
     } catch (error: any) {
       toast({
         title: "Login failed",
-        description: error.message || "Invalid credentials. Please try again.",
-        variant: "destructive",
+        description: getErrorMessage(error),
+        variant: getErrorVariant(error),
       })
     } finally {
       setLoading(false)
@@ -48,10 +50,10 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Column - Login Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-8" style={{ backgroundColor: '#F8F8F8' }}>
-        <div className="w-full max-w-md mx-auto space-y-5 lg:space-y-4">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto" style={{ backgroundColor: '#F8F8F8' }}>
+        <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5 lg:space-y-4 py-4 sm:py-0">
           {/* Logo Header */}
           <div className="mb-5 lg:mb-4 text-center">
             <LinguAfrikaBrand size="md" />

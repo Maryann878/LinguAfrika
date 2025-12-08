@@ -22,22 +22,50 @@ const storage = multer.diskStorage({
   },
 });
 
-// File filter
+// Allowed MIME types for images
+const allowedMimeTypes = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+];
+
+// Allowed file extensions
+const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+
+// File filter with enhanced security
 const fileFilter = (req, file, cb) => {
-  // Accept only images
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only image files are allowed'), false);
+  // Check MIME type
+  if (!allowedMimeTypes.includes(file.mimetype)) {
+    return cb(new Error(`Invalid file type. Only ${allowedExtensions.join(', ')} are allowed.`), false);
   }
+
+  // Check file extension
+  const ext = path.extname(file.originalname).toLowerCase();
+  if (!allowedExtensions.includes(ext)) {
+    return cb(new Error(`Invalid file extension. Only ${allowedExtensions.join(', ')} are allowed.`), false);
+  }
+
+  // Check for potentially dangerous filenames
+  const dangerousPatterns = /\.\.|\.exe|\.bat|\.sh|\.php|\.js|\.html|\.htm/i;
+  if (dangerousPatterns.test(file.originalname)) {
+    return cb(new Error('Invalid filename. Potentially dangerous characters detected.'), false);
+  }
+
+  cb(null, true);
 };
 
-// Configure multer
+// Configure multer with enhanced security
 export const upload = multer({
   storage,
   fileFilter,
   limits: {
     fileSize: 5 * 1024 * 1024, // 5MB max file size
+    files: 1, // Only allow single file
+    fields: 10, // Maximum number of non-file fields
+    fieldNameSize: 100, // Maximum field name size
+    fieldSize: 1024 * 1024, // Maximum field value size (1MB)
   },
 });
 

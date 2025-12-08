@@ -13,9 +13,15 @@ export default function LinguAfrikaBrand({ size = "md", className = "" }: LinguA
   }
 
   const iconSizes = {
-    sm: "w-14 h-14",
+    sm: "w-10 h-10",
     md: "w-16 h-16",
-    lg: "w-18 h-18",
+    lg: "w-20 h-20",
+  }
+
+  const iconPositions = {
+    sm: "absolute -top-3 left-4 -translate-x-1/2",
+    md: "absolute -top-5 left-5 -translate-x-1/2",
+    lg: "absolute -top-6 left-6 -translate-x-1/2",
   }
 
   return (
@@ -29,7 +35,7 @@ export default function LinguAfrikaBrand({ size = "md", className = "" }: LinguA
             <img 
               src={iconV} 
               alt="Icon" 
-              className={`absolute -top-6 left-6 -translate-x-1/2 ${iconSizes[size]} object-contain`}
+              className={`${iconPositions[size]} ${iconSizes[size]} object-contain`}
             />
           </span>
         </span>

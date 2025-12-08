@@ -18,17 +18,23 @@ import {
   validateNewPassword,
   validate,
 } from '../middleware/validate.js';
+import { 
+  authLimiter, 
+  passwordResetLimiter, 
+  emailVerificationLimiter 
+} from '../middleware/rateLimiter.js';
 
 const router = Router();
 
-router.post('/signup', validate(validateSignup), signup);
-router.post('/login', validate(validateLogin), login);
-router.post('/verify', verifyEmail);
-router.post('/resend-verification', resendVerificationCode);
-router.post('/forgot-password', validate(validateResetPassword), forgotPassword);
-router.post('/verify-password-reset-otp', verifyPasswordResetOTP);
-router.post('/resend-password-reset-otp', validate(validateResetPassword), resendPasswordResetOTP);
-router.post('/reset-password', validate(validateNewPassword), resetPassword);
+// Apply strict rate limiting to authentication routes
+router.post('/signup', authLimiter, validate(validateSignup), signup);
+router.post('/login', authLimiter, validate(validateLogin), login);
+router.post('/verify', emailVerificationLimiter, verifyEmail);
+router.post('/resend-verification', emailVerificationLimiter, resendVerificationCode);
+router.post('/forgot-password', passwordResetLimiter, validate(validateResetPassword), forgotPassword);
+router.post('/verify-password-reset-otp', passwordResetLimiter, verifyPasswordResetOTP);
+router.post('/resend-password-reset-otp', passwordResetLimiter, validate(validateResetPassword), resendPasswordResetOTP);
+router.post('/reset-password', passwordResetLimiter, validate(validateNewPassword), resetPassword);
 router.get('/me', authenticate, getMe);
 
 export default router;

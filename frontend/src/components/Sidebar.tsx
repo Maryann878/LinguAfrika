@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import LinguAfrikaBrand from "@/components/LinguAfrikaBrand"
 import { Button } from "@/components/ui/button"
-import logo from "/logo.png"
 
 // Main Navigation - Primary actions users take most often
 const mainMenu = [
@@ -76,12 +75,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
       >
       {/* Logo */}
       <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-        <Link to="/dashboard" className="flex items-center gap-2 flex-1" onClick={handleLinkClick}>
-          <img 
-            src={logo} 
-            alt="LinguAfrika Logo" 
-            className="h-8 w-auto object-contain"
-          />
+        <Link to="/dashboard" className="flex items-center justify-center flex-1" onClick={handleLinkClick}>
           <LinguAfrikaBrand size="sm" />
         </Link>
         {onClose && (
@@ -101,7 +95,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">
           Main Menu
         </h3>
-        <nav className="space-y-1">
+        <nav className="space-y-1" aria-label="Main navigation">
           {mainMenu.map((item) => {
             const Icon = item.icon
             const active = isActive(item.path)
@@ -111,11 +105,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 to={item.path}
                 onClick={handleLinkClick}
                 className={cn(
-                  "flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors group relative",
+                  "flex items-center justify-between px-3 py-3 min-h-[44px] rounded-lg transition-all duration-200 group relative",
                   active
-                    ? "bg-primary text-white"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-primary text-white shadow-md"
+                    : "text-gray-700 hover:bg-gray-100 hover:shadow-sm"
                 )}
+                aria-current={active ? "page" : undefined}
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <Icon className={cn("h-5 w-5 flex-shrink-0", active ? "text-white" : "text-gray-500")} />
@@ -151,7 +146,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">
           Tools & Features
         </h3>
-        <nav className="space-y-1">
+        <nav className="space-y-1" aria-label="Tools navigation">
           {toolsMenu.map((item) => {
             const Icon = item.icon
             const active = isActive(item.path)
@@ -161,11 +156,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 to={item.path}
                 onClick={handleLinkClick}
                 className={cn(
-                  "flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors group relative",
+                  "flex items-center justify-between px-3 py-3 min-h-[44px] rounded-lg transition-all duration-200 group relative",
                   active
-                    ? "bg-primary text-white"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-primary text-white shadow-md"
+                    : "text-gray-700 hover:bg-gray-100 hover:shadow-sm"
                 )}
+                aria-current={active ? "page" : undefined}
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <Icon className={cn("h-5 w-5 flex-shrink-0", active ? "text-white" : "text-gray-500")} />
@@ -201,7 +197,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">
           Settings & Support
         </h3>
-        <nav className="space-y-1">
+        <nav className="space-y-1" aria-label="Settings navigation">
           {settingsMenu.map((item) => {
             const Icon = item.icon
             const active = isActive(item.path)
@@ -211,11 +207,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 to={item.path}
                 onClick={handleLinkClick}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
+                  "flex items-center gap-3 px-3 py-3 min-h-[44px] rounded-lg transition-all duration-200",
                   active
-                    ? "bg-primary text-white"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-primary text-white shadow-md"
+                    : "text-gray-700 hover:bg-gray-100 hover:shadow-sm"
                 )}
+                aria-current={active ? "page" : undefined}
               >
                 <Icon className={cn("h-5 w-5 flex-shrink-0", active ? "text-white" : "text-gray-500")} />
                 <span className="font-medium">{item.label}</span>

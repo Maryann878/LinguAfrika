@@ -20,6 +20,8 @@ import { getCurrentUser } from "@/services/auth"
 import { cn } from "@/lib/utils"
 import { DashboardStatsSkeleton, CourseGridSkeleton } from "@/components/SkeletonLoader"
 import { useDebounce } from "@/hooks/useDebounce"
+import { safeGetStorage, safeSetStorage } from "@/utils/security"
+import { getErrorMessage, getErrorVariant } from "@/utils/errorHandler"
 
 interface Course {
   _id: string
@@ -56,11 +58,11 @@ export default function Dashboard() {
       setLoading(true)
       try {
         // Get user data (for future use if needed)
-        const userStr = localStorage.getItem('user')
+        const userStr = safeGetStorage('user')
         if (!userStr) {
           const userResponse = await getCurrentUser()
           if (userResponse?.data) {
-            localStorage.setItem('user', JSON.stringify(userResponse.data))
+            safeSetStorage('user', JSON.stringify(userResponse.data))
           }
         }
 
@@ -81,8 +83,8 @@ export default function Dashboard() {
       } catch (error: any) {
         toast({
           title: "Error loading dashboard",
-          description: error.message || "Failed to load your dashboard data",
-          variant: "destructive",
+          description: getErrorMessage(error),
+          variant: getErrorVariant(error),
         })
       } finally {
         setLoading(false)
@@ -151,9 +153,9 @@ export default function Dashboard() {
             <CardContent className="p-4 sm:p-5 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
-                  <p className="text-white/85 text-[10px] sm:text-xs font-medium uppercase tracking-wide mb-1.5">Total Languages</p>
+                  <p className="text-white/85 text-xs sm:text-sm font-medium uppercase tracking-wide mb-2">Total Languages</p>
                   <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">{stats.totalLanguages}</p>
-                  <p className="text-white/75 text-[10px] sm:text-xs">Available</p>
+                  <p className="text-white/75 text-xs sm:text-sm">Available</p>
                 </div>
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3">
                   <Languages className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
@@ -168,9 +170,9 @@ export default function Dashboard() {
             <CardContent className="p-4 sm:p-5 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
-                  <p className="text-white/85 text-[10px] sm:text-xs font-medium uppercase tracking-wide mb-1.5">In Progress</p>
+                  <p className="text-white/85 text-xs sm:text-sm font-medium uppercase tracking-wide mb-2">In Progress</p>
                   <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">{stats.languagesInProgress}</p>
-                  <p className="text-white/75 text-[10px] sm:text-xs">Active</p>
+                  <p className="text-white/75 text-xs sm:text-sm">Active</p>
                 </div>
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3">
                   <PlayCircle className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
@@ -185,9 +187,9 @@ export default function Dashboard() {
             <CardContent className="p-4 sm:p-5 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
-                  <p className="text-white/85 text-[10px] sm:text-xs font-medium uppercase tracking-wide mb-1.5">Completed</p>
+                  <p className="text-white/85 text-xs sm:text-sm font-medium uppercase tracking-wide mb-2">Completed</p>
                   <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">{stats.languagesCompleted}</p>
-                  <p className="text-white/75 text-[10px] sm:text-xs">Finished</p>
+                  <p className="text-white/75 text-xs sm:text-sm">Finished</p>
                 </div>
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3">
                   <Award className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
@@ -202,9 +204,9 @@ export default function Dashboard() {
             <CardContent className="p-4 sm:p-5 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
-                  <p className="text-white/85 text-[10px] sm:text-xs font-medium uppercase tracking-wide mb-1.5">Hours Learned</p>
+                  <p className="text-white/85 text-xs sm:text-sm font-medium uppercase tracking-wide mb-2">Hours Learned</p>
                   <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">{Math.round(stats.totalHours)}</p>
-                  <p className="text-white/75 text-[10px] sm:text-xs">Time spent</p>
+                  <p className="text-white/75 text-xs sm:text-sm">Time spent</p>
                 </div>
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3">
                   <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
@@ -284,7 +286,7 @@ export default function Dashboard() {
 
                     <Button
                       variant="outline"
-                      className="w-full bg-white text-primary border-white hover:bg-white/95 font-bold h-12 sm:h-14 !rounded-full text-base sm:text-lg shadow-lg hover:shadow-xl transition-all"
+                      className="w-full bg-white text-primary border-white hover:bg-white/95 font-bold h-12 sm:h-14 !rounded-full text-base sm:text-lg shadow-modern-lg hover:shadow-modern-xl transition-all btn-modern gradient-hover hover:scale-[1.02]"
                       asChild
                     >
                       <Link to={`/course/${course.name.toLowerCase().replace(/\s+/g, '-')}`}>
@@ -387,8 +389,8 @@ export default function Dashboard() {
                 <Card
                   key={course._id}
                   className={cn(
-                    "bg-white hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden group border border-gray-200 hover:border-primary/50 hover:-translate-y-1",
-                    isInProgress && "ring-2 ring-primary ring-offset-2 shadow-md"
+                    "bg-white transition-all duration-300 cursor-pointer overflow-hidden group border border-gray-200 hover-lift hover-glow modern-card",
+                    isInProgress && "ring-2 ring-primary ring-offset-2 shadow-modern-lg"
                   )}
                 >
                   <Link to={`/course/${course.name.toLowerCase().replace(/\s+/g, '-')}`}>

@@ -305,10 +305,10 @@ export default function CourseDashboard() {
                   <Card
                     key={lesson._id}
                     className={cn(
-                      "group relative overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer border-2",
-                      isCompleted && "bg-gradient-to-br from-green-50 to-green-100/50 border-green-300",
-                      isNextLesson && "ring-2 ring-primary border-primary shadow-xl",
-                      !isCompleted && !isNextLesson && "bg-white hover:border-primary/50"
+                      "group relative overflow-hidden transition-all duration-300 cursor-pointer border-2 hover-lift hover-glow",
+                      isCompleted && "bg-gradient-to-br from-green-50 to-green-100/50 border-green-300 hover:border-green-400",
+                      isNextLesson && "ring-2 ring-primary border-primary shadow-modern-xl hover:ring-primary/80",
+                      !isCompleted && !isNextLesson && "bg-white hover:border-primary/50 modern-card"
                     )}
                   >
                     <Link to={`/lesson/${lesson._id}`} className="block">

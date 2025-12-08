@@ -62,6 +62,7 @@ This guide will help you deploy LinguAfrika to production with both demo account
    JWT_SECRET=generate_a_secure_random_string_here
    ENSURE_DEMO_ACCOUNT=true
    RESEND_API_KEY=your_resend_api_key_if_using_email
+   RESEND_FROM_EMAIL=LinguAfrika <onboarding@resend.dev>
    ```
 
    **Important Notes:**
@@ -69,6 +70,10 @@ This guide will help you deploy LinguAfrika to production with both demo account
    - For `CORS_ORIGIN`, add your Cloudflare Pages URL (you'll get this after deploying frontend)
    - For `JWT_SECRET`, generate a secure random string (you can use: `openssl rand -base64 32`)
    - `ENSURE_DEMO_ACCOUNT=true` ensures demo account is created automatically
+   - **Email Setup**: See `EMAIL_SETUP.md` for detailed instructions on setting up Resend for email functionality
+     - `RESEND_API_KEY`: Get from https://resend.com (optional but recommended for production)
+     - `RESEND_FROM_EMAIL`: Use `onboarding@resend.dev` for testing, or your verified domain for production
+     - **Note**: If `RESEND_API_KEY` is not set, emails will be logged to console (development mode)
 
 4. **Deploy**
    - Railway will automatically deploy
