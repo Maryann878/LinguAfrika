@@ -48,7 +48,7 @@ export function Breadcrumbs() {
 
   return (
     <nav 
-      className="flex items-center gap-2 text-sm text-slate-600 mb-4 pt-4 bg-white/50 backdrop-blur-sm border-b border-gray-100"
+      className="flex items-center gap-2 text-sm text-slate-600 mb-4 pt-4 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-white/50 backdrop-blur-sm border-b border-gray-100"
       aria-label="Breadcrumb"
     >
       <ol className="flex items-center gap-1.5 flex-wrap">

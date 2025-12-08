@@ -79,32 +79,30 @@ export default function CourseDashboard() {
         // Capitalize level name for API
         const capitalizedLevel = levelName.charAt(0).toUpperCase() + levelName.slice(1)
 
-        // Fetch lessons for this course and level
-        const lessonsResponse = await getLessonsByCourse(courseData._id, capitalizedLevel)
-        const lessonsData = lessonsResponse?.data || []
+        // Fetch lessons and user progress in parallel for better performance
+        const [lessonsResponse, progressResponse] = await Promise.all([
+          getLessonsByCourse(courseData._id, capitalizedLevel),
+          getUserProgress(courseData._id).catch(() => null) // Don't fail if no progress exists
+        ])
         
-        // Sort lessons by order
+        // Process lessons
+        const lessonsData = lessonsResponse?.data || []
         const sortedLessons = lessonsData.sort((a: Lesson, b: Lesson) => a.order - b.order)
         setLessons(sortedLessons)
 
-        // Fetch user progress
-        try {
-          const progressResponse = await getUserProgress(courseData._id)
-          if (progressResponse?.success && progressResponse.data) {
-            const progress = progressResponse.data
-            
-            // Check if progress is for this level
-            if (progress.level === capitalizedLevel) {
-              setUserProgress(progress)
-              // Extract completed lesson IDs
-              const completed = progress.completedLessons?.map((id: any) => 
-                typeof id === 'string' ? id : id._id || id.toString()
-              ) || []
-              setCompletedLessonIds(completed)
-            }
+        // Process user progress
+        if (progressResponse?.success && progressResponse.data) {
+          const progress = progressResponse.data
+          
+          // Check if progress is for this level
+          if (progress.level === capitalizedLevel) {
+            setUserProgress(progress)
+            // Extract completed lesson IDs
+            const completed = progress.completedLessons?.map((id: any) => 
+              typeof id === 'string' ? id : id._id || id.toString()
+            ) || []
+            setCompletedLessonIds(completed)
           }
-        } catch (error) {
-          // No progress yet, that's okay
         }
       } catch (error: any) {
         toast({

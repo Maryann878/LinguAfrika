@@ -308,7 +308,7 @@ export default function EditProfile() {
                   id="firstName"
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                  className="h-11 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  className="h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
                   placeholder="Enter your first name"
                 />
               </div>
@@ -318,7 +318,7 @@ export default function EditProfile() {
                   id="lastName"
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                  className="h-11 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  className="h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
                   placeholder="Enter your last name"
                 />
               </div>
@@ -333,7 +333,7 @@ export default function EditProfile() {
                   type="email"
                   value={formData.email}
                   disabled
-                  className="pl-11 h-11 border-gray-300 bg-gray-50 text-gray-600 cursor-not-allowed"
+                  className="pl-11 h-11 text-base sm:text-sm border-gray-300 bg-gray-50 text-gray-600 cursor-not-allowed"
                 />
               </div>
               <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
@@ -348,7 +348,7 @@ export default function EditProfile() {
                   type="tel"
                   value={formData.mobile}
                   onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                  className="pl-11 h-11 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  className="pl-11 h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
                   placeholder="+234 123 456 7890"
                 />
               </div>
@@ -362,7 +362,7 @@ export default function EditProfile() {
                   id="location"
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="pl-11 h-11 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  className="pl-11 h-11 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
                   placeholder="City, Country"
                 />
               </div>
@@ -374,7 +374,7 @@ export default function EditProfile() {
                 id="bio"
                 value={formData.bio}
                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                className="flex min-h-[120px] w-full rounded-md border border-gray-300 bg-background px-4 py-3 text-sm ring-offset-background placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary resize-none"
+                className="flex min-h-[120px] w-full rounded-md border border-gray-300 bg-background px-4 py-3 text-base sm:text-sm ring-offset-background placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary resize-none"
                 placeholder="Tell us about yourself... (e.g., your interests, goals, or what you're learning)"
                 maxLength={500}
               />

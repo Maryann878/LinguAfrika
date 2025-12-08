@@ -196,7 +196,7 @@ export default function Community() {
   }
 
   return (
-    <div className="py-6 sm:py-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto">
+    <div className="py-6 sm:py-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto overflow-x-hidden">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2 tracking-tight">LinguAfrika Community</h1>
         <p className="text-slate-600 text-sm sm:text-base">Connect with fellow language learners and share your journey</p>
@@ -209,7 +209,7 @@ export default function Community() {
           placeholder="Search channels..." 
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-11 h-12 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
+          className="pl-11 h-12 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
       </div>
 

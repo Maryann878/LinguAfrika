@@ -170,7 +170,7 @@ export default function Channel() {
   const memberCount = Array.isArray(channel.members) ? channel.members.length : channel.members || 0
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 max-w-7xl mx-auto">
+    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-24 lg:pb-8 space-y-6 max-w-7xl mx-auto overflow-x-hidden">
       <BackButton to="/community" label="Back to Community" className="mb-4" />
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
@@ -335,7 +335,7 @@ export default function Channel() {
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
                     placeholder="Share your thoughts... (You can mix language and English!)"
-                    className="flex-1"
+                    className="flex-1 text-base sm:text-sm"
                     disabled={sending}
                   />
                   <Button

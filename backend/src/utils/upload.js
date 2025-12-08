@@ -38,19 +38,22 @@ const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
 const fileFilter = (req, file, cb) => {
   // Check MIME type
   if (!allowedMimeTypes.includes(file.mimetype)) {
-    return cb(new Error(`Invalid file type. Only ${allowedExtensions.join(', ')} are allowed.`), false);
+    req.fileValidationError = `Invalid file type. Only ${allowedExtensions.join(', ')} are allowed.`;
+    return cb(null, false); // Reject file but don't throw error
   }
 
   // Check file extension
   const ext = path.extname(file.originalname).toLowerCase();
   if (!allowedExtensions.includes(ext)) {
-    return cb(new Error(`Invalid file extension. Only ${allowedExtensions.join(', ')} are allowed.`), false);
+    req.fileValidationError = `Invalid file extension. Only ${allowedExtensions.join(', ')} are allowed.`;
+    return cb(null, false); // Reject file but don't throw error
   }
 
   // Check for potentially dangerous filenames
   const dangerousPatterns = /\.\.|\.exe|\.bat|\.sh|\.php|\.js|\.html|\.htm/i;
   if (dangerousPatterns.test(file.originalname)) {
-    return cb(new Error('Invalid filename. Potentially dangerous characters detected.'), false);
+    req.fileValidationError = 'Invalid filename. Potentially dangerous characters detected.';
+    return cb(null, false); // Reject file but don't throw error
   }
 
   cb(null, true);

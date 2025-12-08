@@ -111,21 +111,21 @@ export default function AIChat() {
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 h-[calc(100vh-200px)] flex flex-col max-w-4xl mx-auto">
+    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-24 lg:pb-8 h-[calc(100vh-200px)] flex flex-col max-w-4xl mx-auto overflow-x-hidden">
       <BackButton to="/dashboard" label="Back to Dashboard" className="mb-4" />
       <div className="mb-6">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 tracking-tight">AI Chat Assistant</h1>
         <p className="text-gray-600 text-base sm:text-lg">Practice your language skills with our AI tutor</p>
       </div>
 
-      <Card className="flex-1 flex flex-col shadow-lg border-gray-200">
-        <CardHeader className="border-b border-gray-200">
+      <Card className="flex-1 flex flex-col shadow-lg border-gray-200 min-h-0">
+        <CardHeader className="border-b border-gray-200 flex-shrink-0">
           <CardTitle className="text-xl">Chat</CardTitle>
           <CardDescription>Ask questions or practice conversations</CardDescription>
         </CardHeader>
-        <CardContent className="flex-1 flex flex-col space-y-4 overflow-hidden p-0">
+        <CardContent className="flex-1 flex flex-col space-y-4 overflow-hidden p-0 min-h-0">
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto space-y-4 p-6">
+          <div className="flex-1 overflow-y-auto space-y-4 p-6 min-h-0">
             {messages.map((message) => (
               <div
                 key={message._id}
@@ -182,7 +182,7 @@ export default function AIChat() {
           </div>
 
           {/* Input */}
-          <div className="flex gap-3 pt-4 pb-6 px-6 border-t border-gray-200 bg-gray-50/50">
+          <div className="flex gap-3 pt-4 pb-6 px-6 border-t border-gray-200 bg-gray-50/50 flex-shrink-0">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -193,7 +193,7 @@ export default function AIChat() {
                 }
               }}
               placeholder="Type your message..."
-              className="flex-1 h-12 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className="flex-1 h-12 text-base sm:text-sm border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
               disabled={sending}
             />
             <Button 
