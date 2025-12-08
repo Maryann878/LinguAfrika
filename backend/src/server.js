@@ -29,21 +29,6 @@ const httpServer = createServer(app);
 const io = initializeSocket(httpServer);
 global.io = io;
 
-// Connect to MongoDB
-connectDB().then(() => {
-  // Ensure demo account exists on startup (only if flag is not set to false)
-  if (process.env.ENSURE_DEMO_ACCOUNT !== 'false') {
-    // Run asynchronously so it doesn't block server startup
-    import('./scripts/ensureDemoAccount.js').then(module => {
-      module.ensureDemoAccount().catch(err => {
-        console.log('⚠️ Could not ensure demo account:', err.message);
-      });
-    }).catch(err => {
-      console.log('⚠️ Could not load ensure demo account script:', err.message);
-    });
-  }
-});
-
 // Middleware
 app.use(cors({
   origin: config.corsOrigin,
@@ -92,10 +77,55 @@ app.use((req, res) => {
 // Error handler (must be last)
 app.use(errorHandler);
 
-// Start server
-const PORT = config.port;
-httpServer.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📡 Socket.IO initialized`);
+// Global error handlers
+process.on('uncaughtException', (err) => {
+  console.error('❌ UNCAUGHT EXCEPTION! Shutting down...');
+  console.error(err.name, err.message);
+  console.error(err.stack);
+  process.exit(1);
 });
+
+process.on('unhandledRejection', (err) => {
+  console.error('❌ UNHANDLED REJECTION! Shutting down...');
+  console.error(err.name, err.message);
+  console.error(err.stack);
+  httpServer.close(() => {
+    process.exit(1);
+  });
+});
+
+// Start server only after DB connection
+const startServer = async () => {
+  try {
+    // Connect to MongoDB first
+    await connectDB();
+    console.log('✅ Database connected successfully');
+
+    // Ensure demo account exists on startup (only if flag is not set to false)
+    if (process.env.ENSURE_DEMO_ACCOUNT !== 'false') {
+      // Run asynchronously so it doesn't block server startup
+      import('./scripts/ensureDemoAccount.js').then(module => {
+        module.ensureDemoAccount().catch(err => {
+          console.log('⚠️ Could not ensure demo account:', err.message);
+        });
+      }).catch(err => {
+        console.log('⚠️ Could not load ensure demo account script:', err.message);
+      });
+    }
+
+    // Start server only after DB is connected
+    const PORT = config.port;
+    httpServer.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📡 Socket.IO initialized`);
+      console.log(`🌍 Environment: ${config.nodeEnv}`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+// Start the server
+startServer();
 

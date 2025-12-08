@@ -118,6 +118,7 @@ This guide will help you deploy LinguAfrika to production with both demo account
    - The build output will be in `frontend/dist`, but since root is `frontend`, Cloudflare looks for `dist` relative to that
    - **DO NOT set a deploy command** - Cloudflare Pages automatically deploys static sites after build
    - If you see a "Deploy command" field, leave it empty or delete any value in it
+   - A `wrangler.json` file in the repo root helps Cloudflare identify the build output location (already included in the repo)
 
 3. **Set Environment Variables**
    - Go to "Settings" → "Environment variables"
@@ -327,23 +328,83 @@ Executing user deploy command: npx wrangler deploy
 ```
 
 **Solution:**
-This happens when Cloudflare Pages thinks you're deploying a Worker instead of a static site.
+This happens when Cloudflare Pages doesn't know where your build output is (common with monorepos).
 
-1. Go to Cloudflare Pages → Your Project → Settings → Builds & deployments
-2. Check for a **"Deploy command"** field
-3. **Remove or clear any value** in the Deploy command field (leave it empty)
-4. Ensure **Framework preset** is set to `Vite` (not "Workers")
-5. Verify these settings:
+1. **Ensure `wrangler.json` exists in repo root** (already included):
+   ```json
+   {
+     "name": "linguafrika",
+     "compatibility_date": "2025-12-08",
+     "pages_build_output_dir": "frontend/dist"
+   }
+   ```
+   This tells Cloudflare where to find your frontend build output.
+
+2. Go to Cloudflare Pages → Your Project → Settings → Builds & deployments
+3. Check for a **"Deploy command"** field
+4. **Remove or clear any value** in the Deploy command field (leave it empty)
+5. Ensure **Framework preset** is set to `Vite` (not "Workers")
+6. Verify these settings:
    - **Root directory**: `frontend`
    - **Build command**: `npm install && npm run build`
    - **Build output directory**: `dist`
    - **Deploy command**: (empty/blank)
-6. Save and redeploy
+7. Commit and push the `wrangler.json` file if you just created it
+8. Save and redeploy
 
 **Why this happens:**
-- Cloudflare Pages automatically deploys static sites after build
-- If a deploy command is set, it tries to use Wrangler (Workers tool)
-- Static sites don't need a deploy command - Pages handles it automatically
+- With monorepos, Cloudflare needs explicit configuration to find build output
+- The `wrangler.json` file tells Cloudflare where your static site files are
+- Cloudflare Pages automatically deploys static sites after build (no deploy command needed)
+
+### Railway: Server Keeps Crashing
+
+**Symptoms:**
+- Railway deployment starts but then crashes
+- Logs show server starting then immediately stopping
+- "Application failed to respond" errors
+
+**Common Causes & Solutions:**
+
+1. **MongoDB Connection Issues**
+   - **Check**: Railway logs for "MongoDB connection error"
+   - **Fix**: 
+     - Verify `MONGODB_URI` is set correctly in Railway environment variables
+     - Check MongoDB Atlas IP whitelist includes `0.0.0.0/0` (allows all IPs)
+     - Verify connection string format: `mongodb+srv://username:password@cluster.mongodb.net/linguafrika?retryWrites=true&w=majority`
+     - Ensure MongoDB username and password don't contain special characters that need URL encoding
+
+2. **Missing Environment Variables**
+   - **Check**: Railway logs for "undefined" or missing config errors
+   - **Fix**: Ensure all required variables are set:
+     - `MONGODB_URI` (required)
+     - `JWT_SECRET` (required - use a strong random string)
+     - `PORT` (optional - Railway sets this automatically)
+     - `NODE_ENV=production`
+     - `CORS_ORIGIN` (should include your Cloudflare Pages URL)
+
+3. **Port Configuration**
+   - **Check**: Railway logs for "EADDRINUSE" or port errors
+   - **Fix**: Railway automatically sets `PORT` - don't hardcode it. The server now listens on `0.0.0.0` to accept connections from Railway's network.
+
+4. **Uncaught Exceptions**
+   - **Check**: Railway logs for "UNCAUGHT EXCEPTION" or "UNHANDLED REJECTION"
+   - **Fix**: The server now has global error handlers, but check logs for the specific error causing the crash
+
+5. **Root Directory Not Set**
+   - **Check**: Railway logs show "No start command was found"
+   - **Fix**: Set Root Directory to `backend` in Railway settings
+
+**How to Debug:**
+1. Go to Railway → Your Service → Deployments
+2. Click on the failed deployment
+3. Check the "Logs" tab for error messages
+4. Look for the last error before the crash
+5. Common error patterns:
+   - `MongoDB connection error` → Check `MONGODB_URI`
+   - `Cannot find module` → Check Root Directory is `backend`
+   - `Port already in use` → Railway handles this automatically
+   - `JWT_SECRET is required` → Set environment variable
 
 ### Backend not connecting to MongoDB
 
@@ -356,6 +417,7 @@ This happens when Cloudflare Pages thinks you're deploying a Worker instead of a
 2. Check MongoDB Atlas IP whitelist includes Railway's IPs (or use `0.0.0.0/0` for testing)
 3. Verify MongoDB username and password are correct
 4. Check connection string format: `mongodb+srv://username:password@cluster.mongodb.net/linguafrika?retryWrites=true&w=majority`
+5. The server now waits for DB connection before starting - check logs to see if connection succeeds
 
 ---
 
