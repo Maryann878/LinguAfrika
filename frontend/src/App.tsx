@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ErrorBoundary } from "@/Components/ErrorBoundary";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ResetEmail from './pages/ResetEmail';
