@@ -43,8 +43,16 @@ export function Sidebar(_props: SidebarProps = {}) {
   return (
     <div className="hidden lg:block w-64 bg-white border-r border-gray-200 h-screen fixed left-0 top-0 overflow-y-auto z-50">
       {/* Logo */}
-      <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-        <Link to="/dashboard" className="flex items-center justify-center flex-1">
+      <div className="p-6 border-b border-gray-200 flex items-center justify-center">
+        <Link to="/dashboard" className="flex items-center gap-3 justify-center flex-1">
+          <img
+            src="/logo.png"
+            alt="LinguAfrika Logo"
+            className="w-8 h-8 object-contain"
+            onError={(e) => {
+              e.currentTarget.src = "/logo2.png";
+            }}
+          />
           <LinguAfrikaBrand size="sm" />
         </Link>
       </div>

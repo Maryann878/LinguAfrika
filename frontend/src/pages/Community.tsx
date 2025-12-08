@@ -51,8 +51,12 @@ export default function Community() {
           setChannels(channelsData)
           setFilteredChannels(channelsData)
 
-          // Check membership for each channel
-          const membershipChecks = await Promise.allSettled(
+          // Show channels immediately, then check memberships in background (lazy loading)
+          // This allows the page to render faster while membership checks happen
+          setLoading(false) // Show content immediately
+
+          // Check membership for channels in parallel (but don't block UI)
+          Promise.allSettled(
             channelsData.map(async (channel: Channel) => {
               try {
                 const membershipResponse = await checkChannelMembership(channel._id)
@@ -61,28 +65,31 @@ export default function Community() {
                 return { channelId: channel._id, isMember: false }
               }
             })
-          )
+          ).then((membershipChecks) => {
+            const memberships: Record<string, boolean> = {}
+            membershipChecks.forEach((result) => {
+              if (result.status === 'fulfilled') {
+                memberships[result.value.channelId] = result.value.isMember
+              }
+            })
+            setChannelMemberships(memberships)
 
-          const memberships: Record<string, boolean> = {}
-          membershipChecks.forEach((result) => {
-            if (result.status === 'fulfilled') {
-              memberships[result.value.channelId] = result.value.isMember
+            // Fetch recent posts from first joined channel if available
+            const joinedChannels = channelsData.filter((ch: Channel) => memberships[ch._id])
+            if (joinedChannels.length > 0) {
+              getChannelPosts(joinedChannels[0]._id, 1, 5)
+                .then((postsResponse) => {
+                  if (postsResponse?.success) {
+                    setRecentPosts(postsResponse.data || [])
+                  }
+                })
+                .catch(() => {
+                  // If posts fail, continue without them
+                })
             }
           })
-          setChannelMemberships(memberships)
-
-          // Fetch recent posts from first joined channel if available
-          const joinedChannels = channelsData.filter((ch: Channel) => memberships[ch._id])
-          if (joinedChannels.length > 0) {
-            try {
-              const postsResponse = await getChannelPosts(joinedChannels[0]._id, 1, 5)
-              if (postsResponse?.success) {
-                setRecentPosts(postsResponse.data || [])
-              }
-            } catch (e) {
-              // If posts fail, continue without them
-            }
-          }
+        } else {
+          setLoading(false)
         }
       } catch (error: any) {
         toast({
@@ -90,7 +97,6 @@ export default function Community() {
           description: getErrorMessage(error),
           variant: getErrorVariant(error),
         })
-      } finally {
         setLoading(false)
       }
     }

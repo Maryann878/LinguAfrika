@@ -22,6 +22,7 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { safeGetStorage, safeSetStorage } from "@/utils/security"
 import { getErrorMessage, getErrorVariant } from "@/utils/errorHandler"
 import { LoadingScreen } from "@/components/LoadingScreen"
+import { CountUpNumber } from "@/components/CountUpNumber"
 
 interface Course {
   _id: string
@@ -138,16 +139,18 @@ export default function Dashboard() {
         {/* Statistics Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Total Languages Card */}
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 rounded-lg">
+          <Card className={cn("group relative overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 rounded-lg animate-fade-in-up stagger-1")}>
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <CardContent className="p-4 sm:p-5 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <p className="text-white/85 text-xs sm:text-sm font-medium uppercase tracking-wide mb-2">Total Languages</p>
-                  <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">{stats.totalLanguages}</p>
+                  <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">
+                    <CountUpNumber value={stats.totalLanguages} duration={800} />
+                  </p>
                   <p className="text-white/75 text-xs sm:text-sm">Available</p>
                 </div>
-                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3">
+                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3 animate-icon-pulse">
                   <Languages className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
               </div>
@@ -155,16 +158,18 @@ export default function Dashboard() {
           </Card>
 
           {/* Languages In Progress Card */}
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-primary via-primary/95 to-primary/90 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 rounded-lg">
+          <Card className={cn("group relative overflow-hidden bg-gradient-to-br from-primary via-primary/95 to-primary/90 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 rounded-lg animate-fade-in-up stagger-2")}>
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <CardContent className="p-4 sm:p-5 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <p className="text-white/85 text-xs sm:text-sm font-medium uppercase tracking-wide mb-2">In Progress</p>
-                  <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">{stats.languagesInProgress}</p>
+                  <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">
+                    <CountUpNumber value={stats.languagesInProgress} duration={800} />
+                  </p>
                   <p className="text-white/75 text-xs sm:text-sm">Active</p>
                 </div>
-                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3">
+                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3 animate-icon-pulse" style={{ animationDelay: '0.5s' }}>
                   <PlayCircle className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
               </div>
@@ -172,16 +177,18 @@ export default function Dashboard() {
           </Card>
 
           {/* Languages Completed Card */}
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-green-500 via-green-600 to-green-700 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 rounded-lg">
+          <Card className={cn("group relative overflow-hidden bg-gradient-to-br from-green-500 via-green-600 to-green-700 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 rounded-lg animate-fade-in-up stagger-3")}>
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <CardContent className="p-4 sm:p-5 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <p className="text-white/85 text-xs sm:text-sm font-medium uppercase tracking-wide mb-2">Completed</p>
-                  <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">{stats.languagesCompleted}</p>
+                  <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">
+                    <CountUpNumber value={stats.languagesCompleted} duration={800} />
+                  </p>
                   <p className="text-white/75 text-xs sm:text-sm">Finished</p>
                 </div>
-                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3">
+                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3 animate-icon-pulse" style={{ animationDelay: '1s' }}>
                   <Award className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
               </div>
@@ -189,16 +196,18 @@ export default function Dashboard() {
           </Card>
 
           {/* Hours Learned Card */}
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 rounded-lg">
+          <Card className={cn("group relative overflow-hidden bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 rounded-lg animate-fade-in-up stagger-4")}>
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <CardContent className="p-4 sm:p-5 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <p className="text-white/85 text-xs sm:text-sm font-medium uppercase tracking-wide mb-2">Hours Learned</p>
-                  <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">{Math.round(stats.totalHours)}</p>
+                  <p className="text-2xl sm:text-3xl font-bold leading-tight mb-1">
+                    <CountUpNumber value={Math.round(stats.totalHours)} duration={1000} />
+                  </p>
                   <p className="text-white/75 text-xs sm:text-sm">Time spent</p>
                 </div>
-                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3">
+                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm flex-shrink-0 ml-3 animate-icon-pulse" style={{ animationDelay: '1.5s' }}>
                   <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
               </div>
@@ -208,7 +217,7 @@ export default function Dashboard() {
 
       {/* Continue Your Learning Section */}
       {inProgressCourses.length > 0 && (
-        <div className="space-y-6 sm:space-y-8">
+        <div className="space-y-6 sm:space-y-8 animate-fade-in-up">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight mb-1">Continue your learning</h2>
@@ -224,7 +233,7 @@ export default function Dashboard() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-5 sm:gap-6 lg:gap-8">
-            {inProgressCourses.map((progress) => {
+            {inProgressCourses.map((progress, index) => {
               const course = progress.courseId
               const progressPercent = progress.progress || 0
               const currentLesson = progress.currentLesson || 1
@@ -233,7 +242,10 @@ export default function Dashboard() {
               return (
                 <Card 
                   key={progress._id} 
-                  className="group bg-gradient-to-br from-primary via-primary/95 to-primary/90 border-0 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative"
+                  className={cn(
+                    "group bg-gradient-to-br from-primary via-primary/95 to-primary/90 border-0 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative animate-fade-in-up",
+                    index === 0 ? "stagger-1" : "stagger-2"
+                  )}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <CardContent className="p-6 sm:p-8 lg:p-10 space-y-5 sm:space-y-6 relative z-10">
@@ -250,7 +262,7 @@ export default function Dashboard() {
                         <img
                           src={course.image}
                           alt={course.name}
-                          className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-cover rounded-lg flex-shrink-0 shadow-md"
+                          className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-cover rounded-lg flex-shrink-0 shadow-md transition-transform duration-300 group-hover:scale-110"
                           onError={(e) => {
                             e.currentTarget.style.display = 'none'
                           }}
@@ -263,11 +275,13 @@ export default function Dashboard() {
                         <span>Progress</span>
                         <span>Lesson {currentLesson}/{totalLessons}</span>
                       </div>
-                      <div className="w-full bg-white/25 rounded-full h-3 sm:h-3.5 shadow-inner">
+                      <div className="w-full bg-white/25 rounded-full h-3 sm:h-3.5 shadow-inner overflow-hidden">
                         <div
-                          className="bg-white h-3 sm:h-3.5 rounded-full transition-all duration-500 shadow-sm"
+                          className="bg-white h-3 sm:h-3.5 rounded-full transition-all duration-1000 ease-out shadow-sm animate-progress-fill relative"
                           style={{ width: `${progressPercent}%` }}
-                        />
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                        </div>
                       </div>
                       <p className="text-white/90 text-sm sm:text-base font-semibold">
                         {Math.round(progressPercent)}% complete
@@ -276,12 +290,12 @@ export default function Dashboard() {
 
                     <Button
                       variant="outline"
-                      className="w-full bg-white !text-primary border-white hover:bg-white/95 font-bold h-12 sm:h-14 !rounded-full text-base sm:text-lg shadow-modern-lg hover:shadow-modern-xl transition-all btn-modern gradient-hover hover:scale-[1.02]"
+                      className="w-full !bg-white !text-primary border-white hover:!bg-white/95 font-bold h-12 sm:h-14 !rounded-full text-base sm:text-lg shadow-modern-lg hover:shadow-modern-xl transition-all btn-modern hover:scale-[1.02]"
                       asChild
                     >
-                      <Link to={`/course/${course.name.toLowerCase().replace(/\s+/g, '-')}`} className="text-primary">
+                      <Link to={`/course/${course.name.toLowerCase().replace(/\s+/g, '-')}`} className="!text-primary">
                         Continue Learning
-                        <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                        <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 !text-primary" />
                       </Link>
                     </Button>
                   </CardContent>
@@ -371,17 +385,19 @@ export default function Dashboard() {
           </Card>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-6">
-            {filteredCourses.map((course) => {
+            {filteredCourses.map((course, index) => {
               const progress = userProgress.find((p) => p.courseId?._id === course._id)
               const isInProgress = progress?.status === 'in-progress'
+              const staggerDelay = index % 10 // Cycle through delays for large grids
 
               return (
                 <Card
                   key={course._id}
                   className={cn(
-                    "bg-white transition-all duration-300 cursor-pointer overflow-hidden group border border-gray-200 hover-lift hover-glow modern-card",
-                    isInProgress && "ring-2 ring-primary ring-offset-2 shadow-modern-lg"
+                    "bg-white transition-all duration-300 cursor-pointer overflow-hidden group border border-gray-200 hover-lift hover-glow modern-card animate-fade-in-up",
+                    `stagger-${Math.min(staggerDelay + 1, 4)}` // Use stagger-1 through stagger-4
                   )}
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   <Link to={`/course/${course.name.toLowerCase().replace(/\s+/g, '-')}`}>
                     <CardContent className="p-0">
@@ -426,9 +442,9 @@ export default function Dashboard() {
                               <span>Progress</span>
                               <span>{Math.round(progress.progress)}%</span>
                             </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2 sm:h-2.5">
+                            <div className="w-full bg-gray-200 rounded-full h-2 sm:h-2.5 overflow-hidden">
                               <div
-                                className="bg-primary h-2 sm:h-2.5 rounded-full transition-all duration-500"
+                                className="bg-primary h-2 sm:h-2.5 rounded-full transition-all duration-700 ease-out animate-progress-fill"
                                 style={{ width: `${progress.progress}%` }}
                               />
                             </div>

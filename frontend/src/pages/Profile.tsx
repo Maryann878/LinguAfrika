@@ -55,16 +55,18 @@ export default function Profile() {
     const fetchProfileData = async () => {
       setLoading(true)
       try {
-        // Fetch user data
-        const userResponse = await getCurrentUser()
+        // Fetch user data and progress in parallel for faster loading
+        const [userResponse, progressResponse] = await Promise.all([
+          getCurrentUser(),
+          getAllUserProgress().catch(() => ({ success: true, data: [] })), // Handle if no progress yet
+        ])
+
         if (userResponse?.success && userResponse?.data) {
           setUser(userResponse.data)
           // Update localStorage
           localStorage.setItem('user', JSON.stringify(userResponse.data))
         }
 
-        // Fetch user progress to get learning languages
-        const progressResponse = await getAllUserProgress()
         if (progressResponse?.success && progressResponse?.data) {
           const progress: UserProgress[] = progressResponse.data
           

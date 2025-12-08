@@ -198,7 +198,7 @@ export function TopBar({ onMenuClick }: TopBarProps) {
             <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 tracking-tight leading-tight">
               <span className="inline">{getGreeting()},</span>{" "}
               <span className="text-primary">{getUserName()}!</span>{" "}
-              <span className="inline-block animate-wave ml-1">👋</span>
+              <span className="inline-flex items-center animate-wave ml-1.5 align-middle">👋</span>
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 font-medium hidden sm:block leading-relaxed">
               What language are you learning today?
