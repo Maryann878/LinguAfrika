@@ -605,34 +605,75 @@ export const seedCommunityPosts = async (demoUser, channels) => {
 
 // Seed AI chat history
 export const seedChatHistory = async (demoUser) => {
-  const chatMessages = [
+  // Create a proper conversation flow with alternating user and AI messages
+  // Start with AI welcome message
+  const baseTime = new Date();
+  baseTime.setHours(baseTime.getHours() - 2); // Start conversation 2 hours ago
+  
+  const conversation = [
+    // AI Welcome Message
+    {
+      userId: demoUser._id,
+      message: "Hello! 👋 I'm your AI language learning assistant. I'm here to help you practice Yoruba, Hausa, Igbo, Efik, and other African languages. You can ask me to teach you vocabulary, explain grammar, practice conversations, or help with pronunciation. How would you like to start?",
+      messageType: 'ai',
+      language: 'Yoruba',
+      createdAt: new Date(baseTime.getTime()),
+    },
+    // User Response
     {
       userId: demoUser._id,
       message: 'Hello! Can you help me learn Yoruba?',
-      response: 'Of course! I\'d be happy to help you learn Yoruba. What would you like to start with? We can begin with basic greetings, numbers, or common phrases.',
-      language: 'Yoruba',
       messageType: 'user',
+      language: 'Yoruba',
+      createdAt: new Date(baseTime.getTime() + 1 * 60000), // 1 minute later
     },
+    // AI Response
+    {
+      userId: demoUser._id,
+      message: 'Of course! I\'d be happy to help you learn Yoruba. What would you like to start with? We can begin with basic greetings, numbers, or common phrases. Just let me know what interests you most!',
+      messageType: 'ai',
+      language: 'Yoruba',
+      createdAt: new Date(baseTime.getTime() + 2 * 60000), // 2 minutes later
+    },
+    // User Question
     {
       userId: demoUser._id,
       message: 'What are some common greetings?',
-      response: 'Great question! Here are some common Yoruba greetings:\n\n- "Bawo ni?" - How are you?\n- "E kaaro" - Good morning\n- "E kaasan" - Good afternoon\n- "E ku irole" - Good evening\n- "O daaro" - Good night\n\nTry practicing these!',
-      language: 'Yoruba',
       messageType: 'user',
+      language: 'Yoruba',
+      createdAt: new Date(baseTime.getTime() + 3 * 60000), // 3 minutes later
     },
+    // AI Response with greetings
+    {
+      userId: demoUser._id,
+      message: 'Great question! Here are some common Yoruba greetings:\n\n• "Bawo ni?" - How are you?\n• "E kaaro" - Good morning\n• "E kaasan" - Good afternoon\n• "E ku irole" - Good evening\n• "O daaro" - Good night\n\nTry practicing these! Which one would you like to use in a sentence?',
+      messageType: 'ai',
+      language: 'Yoruba',
+      createdAt: new Date(baseTime.getTime() + 4 * 60000), // 4 minutes later
+    },
+    // User Question
     {
       userId: demoUser._id,
       message: 'How do I say thank you?',
-      response: 'In Yoruba, "thank you" is "E se" (formal) or "O se" (informal). You can also say "E se pupo" which means "thank you very much"!',
-      language: 'Yoruba',
       messageType: 'user',
+      language: 'Yoruba',
+      createdAt: new Date(baseTime.getTime() + 5 * 60000), // 5 minutes later
+    },
+    // AI Response
+    {
+      userId: demoUser._id,
+      message: 'In Yoruba, "thank you" is "E se" (formal) or "O se" (informal). You can also say "E se pupo" which means "thank you very much"!\n\nFor example:\n• "E se" - Thank you (formal)\n• "O se" - Thank you (informal)\n• "E se pupo" - Thank you very much\n\nWould you like to learn more polite expressions?',
+      messageType: 'ai',
+      language: 'Yoruba',
+      createdAt: new Date(baseTime.getTime() + 6 * 60000), // 6 minutes later
     },
   ];
 
-  for (const messageData of chatMessages) {
+  // Create messages in sequence to maintain proper timestamps
+  for (const messageData of conversation) {
     await ChatMessage.create(messageData);
   }
-  console.log('✅ Seeded AI chat history');
+  console.log('✅ Seeded AI chat history with conversation flow');
 };
 
 // Seed quizzes and attempts

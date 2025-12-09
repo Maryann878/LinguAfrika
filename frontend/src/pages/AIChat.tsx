@@ -14,6 +14,7 @@ interface Message {
   message: string
   messageType: "user" | "ai"
   createdAt: string
+  language?: string
 }
 
 export default function AIChat() {
@@ -22,7 +23,9 @@ export default function AIChat() {
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -31,16 +34,21 @@ export default function AIChat() {
         const response = await getChatHistory(50)
         if (response?.success) {
           const historyMessages = response.data || []
-          setMessages(historyMessages)
           
-          // If no messages, add welcome message
+          // If no messages, add welcome message from AI
           if (historyMessages.length === 0) {
             setMessages([{
               _id: 'welcome',
-              message: "Hello! I'm your AI language learning assistant. How can I help you practice today?",
+              message: "Hello! 👋 I'm your AI language learning assistant. I'm here to help you practice Yoruba, Hausa, Igbo, Efik, and other African languages. You can ask me to teach you vocabulary, explain grammar, practice conversations, or help with pronunciation. How would you like to start?",
               messageType: "ai",
               createdAt: new Date().toISOString()
             }])
+          } else {
+            setMessages(historyMessages)
+            // Set language from last message if available
+            if (historyMessages[historyMessages.length - 1].language) {
+              setSelectedLanguage(historyMessages[historyMessages.length - 1].language || "")
+            }
           }
         }
       } catch (error: any) {
@@ -52,7 +60,7 @@ export default function AIChat() {
         // Add welcome message even on error
         setMessages([{
           _id: 'welcome',
-          message: "Hello! I'm your AI language learning assistant. How can I help you practice today?",
+          message: "Hello! 👋 I'm your AI language learning assistant. I'm here to help you practice Yoruba, Hausa, Igbo, Efik, and other African languages. You can ask me to teach you vocabulary, explain grammar, practice conversations, or help with pronunciation. How would you like to start?",
           messageType: "ai",
           createdAt: new Date().toISOString()
         }])
@@ -68,24 +76,25 @@ export default function AIChat() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const handleSend = async () => {
-    if (!input.trim() || sending) return
+  const handleSend = async (messageText?: string) => {
+    const textToSend = messageText || input.trim()
+    if (!textToSend || sending) return
 
-    const userMessageText = input.trim()
     setInput("")
     setSending(true)
 
     // Add user message optimistically
     const tempUserMessage: Message = {
       _id: `temp-${Date.now()}`,
-      message: userMessageText,
+      message: textToSend,
       messageType: "user",
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      language: selectedLanguage || undefined
     }
     setMessages((prev) => [...prev, tempUserMessage])
 
     try {
-      const response = await sendChatMessage(userMessageText)
+      const response = await sendChatMessage(textToSend, selectedLanguage || undefined)
       if (response?.success && response?.data) {
         // Replace temp message with real messages
         setMessages((prev) => {
@@ -103,7 +112,12 @@ export default function AIChat() {
       setMessages((prev) => prev.filter(m => m._id !== tempUserMessage._id))
     } finally {
       setSending(false)
+      inputRef.current?.focus()
     }
+  }
+
+  const handleSendClick = () => {
+    handleSend()
   }
 
   if (loading) {
@@ -197,7 +211,7 @@ export default function AIChat() {
               disabled={sending}
             />
             <Button 
-              onClick={handleSend} 
+              onClick={handleSendClick} 
               size="icon"
               className="h-12 w-12 !rounded-full shadow-md hover:shadow-lg transition-all"
               disabled={!input.trim() || sending}
