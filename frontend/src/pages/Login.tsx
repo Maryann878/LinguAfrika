@@ -56,12 +56,12 @@ export default function Login() {
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto mx-auto max-w-full pt-16 sm:pt-6 lg:pt-8" style={{ backgroundColor: '#F8F8F8' }}>
         <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5 lg:space-y-4 py-4 sm:py-0">
           {/* Logo Header */}
-          <div className="mb-5 lg:mb-4 text-center">
+          <div className="mb-6 lg:mb-4 text-center mt-24 sm:mt-20">
             <LinguAfrikaBrand size="md" />
           </div>
 
           {/* Welcome Message */}
-          <div className="text-center mb-5 lg:mb-4">
+          <div className="text-center mb-6 lg:mb-4">
             <h2 className="text-2xl sm:text-3xl lg:text-2xl font-bold mb-2 text-gray-900 tracking-tight">
               Welcome Back
             </h2>
@@ -71,7 +71,7 @@ export default function Login() {
           </div>
 
           {/* Social Login Buttons */}
-          <div className="flex gap-6 sm:gap-8 justify-center items-center mb-5 lg:mb-4">
+          <div className="flex gap-6 sm:gap-8 justify-center items-center mb-6 lg:mb-4">
             <button 
               type="button"
               className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:scale-95"
@@ -114,7 +114,7 @@ export default function Login() {
           </div>
 
           {/* OR Separator */}
-          <div className="relative mb-5 lg:mb-4">
+          <div className="relative mb-6 lg:mb-4">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-200"></div>
             </div>
@@ -124,7 +124,7 @@ export default function Login() {
           </div>
 
           {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Username Field */}
             <div className="space-y-2">
               <label 

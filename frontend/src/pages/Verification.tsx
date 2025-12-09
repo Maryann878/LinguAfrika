@@ -185,8 +185,8 @@ export default function Verification() {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Column - Verification Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto" style={{ backgroundColor: '#F8F8F8' }}>
-        <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5 lg:space-y-4 py-4 sm:py-0">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-4 py-6 sm:px-6 sm:py-8 lg:p-8 overflow-y-auto safe-area-inset" style={{ backgroundColor: '#F8F8F8' }}>
+        <div className="w-full max-w-sm sm:max-w-md mx-auto space-y-5 sm:space-y-6 lg:space-y-4">
           {/* Mobile Back Button - Top Left */}
           <div className="lg:hidden mb-4">
             <button
@@ -201,12 +201,12 @@ export default function Verification() {
           </div>
 
           {/* Logo Header */}
-          <div className="mb-5 lg:mb-4 text-center">
+          <div className="mb-6 lg:mb-4 text-center">
             <LinguAfrikaBrand size="md" />
           </div>
 
           {/* Welcome Message */}
-          <div className="text-center mb-5 lg:mb-4">
+          <div className="text-center mb-6 lg:mb-4">
             <h2 className="text-2xl sm:text-3xl lg:text-2xl font-bold mb-2 text-gray-900 tracking-tight">
               Verify Your Email
             </h2>
@@ -216,7 +216,7 @@ export default function Verification() {
           </div>
 
           {/* Verification Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* OTP Input Fields */}
             <div className="space-y-2">
               <label className="text-sm font-semibold text-gray-700 block text-center">
